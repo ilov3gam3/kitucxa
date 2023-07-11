@@ -248,4 +248,24 @@ public class BillsDao {
             return null;
         }
     }
+    public ArrayList<Integer> getBillIdBy(String room_id, String start, String end){
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        String sql = "select id from bills where room_id = ? and start = ? and [end] = ? and status = 1\n";
+        connection = Connect.getConnection();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, room_id);
+            preparedStatement.setString(2, start);
+            preparedStatement.setString(3, end);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                arrayList.add(resultSet.getInt(1));
+            }
+            return arrayList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 }

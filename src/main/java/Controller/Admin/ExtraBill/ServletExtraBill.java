@@ -2,6 +2,7 @@ package Controller.Admin.ExtraBill;
 
 import Dao.BillsDao;
 import Dao.ExtraBillDao;
+import Model.Config;
 import Model.ExtraBill;
 import Model.Semester;
 import jakarta.servlet.ServletException;
@@ -46,6 +47,8 @@ public class ServletExtraBill extends HttpServlet {
         String current = Semester.getSemester(currents[0], currents[1]);
         req.setAttribute("currents", currents);
         req.setAttribute("current", current);
+        req.setAttribute("max_electricity", Integer.parseInt(Config.map.get("max_electricity")));
+        req.setAttribute("max_water", Integer.parseInt(Config.map.get("max_water")));
         req.getRequestDispatcher("/WEB-INF/views/admin/extra-bills.jsp").forward(req, resp);
     }
 

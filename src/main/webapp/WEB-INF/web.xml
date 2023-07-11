@@ -137,6 +137,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>ServletReview</servlet-name>
+        <servlet-class>Controller.User.Bills.ServletReview</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletReview</servlet-name>
+        <url-pattern>/user/make-review</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>ServletChangeRoom</servlet-name>
         <servlet-class>Controller.User.ChangeRoom.ServletChangeRoom</servlet-class>
     </servlet>

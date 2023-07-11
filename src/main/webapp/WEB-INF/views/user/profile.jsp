@@ -3,6 +3,7 @@
 <%@ include file="../../include/head.jsp"%>
 <div>
     <h1>Profile</h1>
+    <a href="${pageContext.request.contextPath}/${user.getAvatar()}">Xem ảnh đại diện</a>
     <c:if test="${not empty error}">
         <div class="alert alert-danger">
                 ${error}
@@ -38,6 +39,8 @@
                 </div>
                 <button class="btn btn-success" style="width: 100%">submit</button>
             </form>
+            <h4>Ảnh đại diện</h4>
+            <img src="${pageContext.request.contextPath}/${user.getAvatar()}" alt="" style="width: 100%">
         </div>
         <div class="col-md-6">
             <form action="${pageContext.request.contextPath}/update-avatar" method="post" enctype="multipart/form-data">

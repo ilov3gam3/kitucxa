@@ -1,5 +1,7 @@
+<%@ page import="Model.Bill" %>
 <%@page contentType="text/html" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../../include/head.jsp" %>
 <div class="row">
     <h3>Danh sách hoá đơn của bạn</h3>
@@ -28,7 +30,8 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="item" items="${bills}">
+        <% ArrayList<Bill> arrayList = (ArrayList<Bill>) request.getAttribute("bills");%>
+        <c:forEach var="item" items="${bills}" varStatus="loop">
             <tr>
                 <td>${item.getId()}</td>
                 <td>${item.getRoom_name()}</td>
@@ -64,8 +67,28 @@
                                 </c:if>
                             </p>
                         </div>
+                    </div>
                 </td>
-                <td>${item.getEvaluation() == "" ? "Chưa có đánh giá" : item.getEvaluation()}</td>
+                <td>
+                    <%--<c:if test="${item.getEvaluation() == ''}">
+                        <fmt:parseDate var="start_date_current_semester" value="${current_semester[0]}" pattern="yyyy-MM-dd" />
+                        <fmt:parseDate var="this_bill_end" value="${item.getEnd()}" pattern="yyyy-MM-dd" />
+                        current semester start : ${start_date_current_semester}<br>
+                        this bill end at : ${this_bill_end}
+                        <br>
+                        <c:if test="${start_date_current_semester gt this_bill_end}">
+                                &lt;%&ndash;cho nhận xét&ndash;%&gt;
+                            <a href="${pageContext.request.contextPath}/user/make-review?bill_id=${item.getId()}">
+                                <button class="btn btn-success">Nhận xét</button>
+                            </a>
+                        </c:if>
+                        <c:if test="${start_date_current_semester lt this_bill_end}">
+                            &lt;%&ndash;khong cho nhận xét&ndash;%&gt;
+                            <c:out value="start_date_current_semester < this_bill_end"/>
+                        </c:if>
+                    </c:if>--%>
+                    ${item.getEvaluation() == "" ? "Chưa có đánh giá" : item.getEvaluation()}
+                </td>
                 <c:if test="${item.getStars() == -1}">
                     <td>Chưa có đánh giá</td>
                 </c:if>

@@ -24,6 +24,10 @@
                         </c:if>
                         <form action="" method="post">
                             <div class="form-group">
+                                <label for="student_code">Nhập mã số sinh viên</label>
+                                <input class="form-control m-2" id="student_code" type="text" name="student_code" placeholder="Student code">
+                            </div>
+                            <div class="form-group">
                                 <label for="email">Nhập Email</label>
                                 <input class="form-control m-2" id="email" type="email" name="email" placeholder="Email">
                             </div>

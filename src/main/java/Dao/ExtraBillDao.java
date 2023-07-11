@@ -1,9 +1,12 @@
 package Dao;
 
+import Model.ExtraBill;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ExtraBillDao {
     Connection connection = null;
@@ -48,4 +51,45 @@ public class ExtraBillDao {
         }
 
     }
+
+    public ArrayList<ExtraBill> getExtraWithUsername(int extra_bill_id){
+        ArrayList<ExtraBill> arrayList = new ArrayList<>();
+        String sql = "select bills.id as bill_id, users.name as username,users.email as user_email, rooms.name as room_name,extra_bills.*\n" +
+                "from bills\n" +
+                "    inner join extra_bills on extra_bills.start = bills.start and extra_bills.room_id = bills.room_id\n" +
+                "    inner join users on bills.user_id = users.id\n" +
+                "    inner join rooms on bills.room_id = rooms.id\n" +
+                "where extra_bills.id = ? and bills.status = 1;";
+        connection= Connect.getConnection();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, extra_bill_id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                ExtraBill extraBill = new ExtraBill();
+                extraBill.ExtraBillForSendMail(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("electricity"),
+                        resultSet.getInt("electricity_price"),
+                        resultSet.getInt("water"),
+                        resultSet.getInt("water_price"),
+                        resultSet.getBoolean("status"),
+                        resultSet.getInt("room_id"),
+                        resultSet.getString("start"),
+                        resultSet.getString("end"),
+                        resultSet.getString("room_name"),
+                        resultSet.getInt("bill_id"),
+                        resultSet.getString("username"),
+                        resultSet.getString("user_email")
+                );
+                arrayList.add(extraBill);
+            }
+            return arrayList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
 }

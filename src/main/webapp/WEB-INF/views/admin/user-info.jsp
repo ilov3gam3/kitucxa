@@ -13,6 +13,14 @@
         <label for="name">Tên</label>
         <input class="form-control" type="text" id="name" name="name" disabled value="${user.getName()}">
       </div>
+      <div class="form-group m-2">
+        <label for="email">Tên</label>
+        <input class="form-control" type="email" id="email" name="email" disabled value="${user.getEmail()}">
+      </div>
+      <div class="form-group m-2">
+        <h4>Ảnh đại diện</h4>
+        <img src="${pageContext.request.contextPath}/${user.getAvatar()}" alt="" style="width: 50%">
+      </div>
     </form>
   </form>
 </div>

@@ -294,6 +294,20 @@ public class UserDao {
         }
         return null;
     }
+    public boolean checkEmailAndStudentCode(String email, String student_code){
+        try {
+            String sql = "select * from users where email = ? and student_code = ?";
+            connection = Connect.getConnection();
+            preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setString(1,email);
+            preparedStatement.setString(2,student_code);
+            resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     public ArrayList<User> getAdmins(){
         ArrayList<User> arrayList = new ArrayList<>();
         try {

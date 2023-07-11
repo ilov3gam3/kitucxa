@@ -50,14 +50,16 @@
     </div>
     <div class="col-md-12">
         <h3>Hoá đơn điện, nước kì ${semester} từ ${semesters[0]} đến ${semesters[1]}</h3>
+        <h5>Hạn mức điện : ${max_electricity}</h5>
+        <h5>Hạn mức nước : ${max_water}</h5>
         <table class="table table-bordered table-striped" id="mytable">
             <thead>
             <tr>
                 <th scope="col">Tên phòng</th>
-                <th scope="col">Số điện</th>
-                <th scope="col">Giá điện</th>
-                <th scope="col">Số khối</th>
-                <th scope="col">Giá nước</th>
+                <th scope="col">Số điện(KWh)</th>
+                <th scope="col">Giá điện(vnđ)</th>
+                <th scope="col">Số khối(m³)</th>
+                <th scope="col">Giá nước(vnđ)</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col">Action</th>
             </tr>
@@ -76,7 +78,7 @@
                             <input type="hidden" name="extra_bill_id" value="${item.getId()}">
                             <input type="hidden" name="method" value="update">
                         </c:if>
-                    <th scope="row">${item.getRoom_name()} <a href="${pageContext.request.contextPath}/admin/view-bills-in-extra?room_id${item.getRoom_id()}&start=${semesters[0]}&end=${semesters[1]}">Chi tiết</a></th>
+                    <th scope="row">${item.getRoom_name()} <a href="${pageContext.request.contextPath}/admin/view-bills-in-extra?room_id=${item.getRoom_id()}&start=${semesters[0]}&end=${semesters[1]}">Chi tiết</a></th>
                     <th scope="row">
                         <input type="text" class="form-control" name="electricity" value="${item.getElectricity()}" >
                     </th>
@@ -98,9 +100,16 @@
                     <th>
                         <div class="row m-1">
                             <div class="col-md-12">
-                                <a href="${pageContext.request.contextPath}/admin/send-mail-extra-bill?extra_bill_id=${item.getId()}" ${item.getId() == 0 ? "hidden" : ""}>
-                                    <button type="button" class="btn btn-success" style="width: 100%;">Gửi thông báo</button>
-                                </a>
+                                <c:if test="${item.getId() > 0}">
+                                    <c:if test="${item.getElectricity() < max_electricity && item.getWater() < max_water}">
+                                            <button type="button" disabled class="btn btn-success" style="width: 100%;">Chưa đủ hạn mức</button>
+                                    </c:if>
+                                    <c:if test="${item.getElectricity() > max_electricity || item.getWater() > max_water}">
+                                        <a href="${pageContext.request.contextPath}/admin/send-mail-extra-bill?extra_bill_id=${item.getId()}">
+                                            <button type="button" class="btn btn-success" style="width: 100%;">Gửi thông báo</button>
+                                        </a>
+                                    </c:if>
+                                </c:if>
                             </div>
                         </div>
                         <div class="row m-1">

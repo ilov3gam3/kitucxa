@@ -12,6 +12,29 @@ public class ExtraBill {
     public String end;
     public String room_name;
     public int price;
+    public int bill_id;
+    public String username;
+    public String user_email;
+
+    public ExtraBill() {
+    }
+
+    public void ExtraBillForSendMail(int id, int electricity, int electricity_price, int water, int water_price, boolean status, int room_id, String start, String end, String room_name, int bill_id, String username, String user_email) {
+        this.id = id;
+        this.electricity = electricity;
+        this.electricity_price = electricity_price;
+        this.water = water;
+        this.water_price = water_price;
+        this.status = status;
+        this.room_id = room_id;
+        this.start = start;
+        this.end = end;
+        this.room_name = room_name;
+        this.bill_id = bill_id;
+        this.username = username;
+        this.user_email = user_email;
+    }
+
     public ExtraBill(int id, int electricity, int electricity_price, int water, int water_price, boolean status, int room_id, String start, String end, String room_name, int price) {
         this.id = id;
         this.electricity = electricity;
@@ -80,10 +103,13 @@ public class ExtraBill {
                 ", water_price=" + water_price +
                 ", status=" + status +
                 ", room_id=" + room_id +
-                ", room_name='" + room_name + '\'' +
                 ", start='" + start + '\'' +
                 ", end='" + end + '\'' +
+                ", room_name='" + room_name + '\'' +
                 ", price=" + price +
+                ", bill_id=" + bill_id +
+                ", username='" + username + '\'' +
+                ", user_email='" + user_email + '\'' +
                 '}';
     }
 }

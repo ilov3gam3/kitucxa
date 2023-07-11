@@ -5,6 +5,7 @@ import Dao.BillsDao;
 import Dao.CancelDao;
 import Dao.UserDao;
 import Model.Bill;
+import Model.Semester;
 import Model.Status;
 import Model.User;
 import jakarta.servlet.*;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -26,7 +28,9 @@ public class ServletBills extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         int user_id = user.id;
         ArrayList<Bill> arrayList = new BillsDao().getAllBillsOfUser(user_id);
+        String[] semester = Semester.getCurrentSemester();
         request.setAttribute("bills", arrayList);
+        request.setAttribute("current_semester", semester);
         request.getRequestDispatcher("/WEB-INF/views/user/bills.jsp").forward(request,response);
     }
     @Override

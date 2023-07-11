@@ -16,6 +16,7 @@
       <th>Ảnh đại diện</th>
       <th>Là admin</th>
       <th>Đã xác thực</th>
+      <th>Chi tiết</th>
     </tr>
     </thead>
     <tbody>
@@ -31,6 +32,11 @@
         <td><a href="${pageContext.request.contextPath}/${item.getAvatar()}" target="_blank"><img src="${pageContext.request.contextPath}/${item.getAvatar()}" alt="" style="width: 100px; height: 100px; object-fit: cover;"></a></td>
         <td>${item.isAdmin() ? "có" : "không"}</td>
         <td>${item.isVerified() ? "rồi" : "chưa"}</td>
+        <td>
+          <a href="${pageContext.request.contextPath}/admin/user-info?student_code=${item.getStudent_code()}">
+            <button class="btn btn-success">Xem</button>
+          </a>
+        </td>
       </tr>
     </c:forEach>
     </tbody>

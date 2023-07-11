@@ -1,11 +1,14 @@
 package Controller.Admin.ExtraBill;
 
+import Dao.BillsDao;
+import Dao.ExtraBillDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ServletViewBills extends HttpServlet {
     @Override
@@ -13,8 +16,15 @@ public class ServletViewBills extends HttpServlet {
         String room_id = req.getParameter("room_id");
         String start = req.getParameter("start");
         String end = req.getParameter("end");
-        System.out.println(room_id);
-        System.out.println(start);
-        System.out.println(end);
+        ArrayList<Integer> arrayList= new BillsDao().getBillIdBy(room_id, start, end);
+        String query = "?bill_id=";
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (i == arrayList.size()-1){
+                query += arrayList.get(i);
+                break;
+            }
+            query+=arrayList.get(i) + "-";
+        }
+        resp.sendRedirect(req.getContextPath() + "/admin/manage-bills" + query);
     }
 }
