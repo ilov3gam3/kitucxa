@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+    <servlet>
+        <servlet-name>myServlet</servlet-name>
+        <servlet-class>MyServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>myServlet</servlet-name>
+        <url-pattern>/my-servlet</url-pattern>
+    </servlet-mapping>
+         <!--    ==================FILTER PART-->
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>Filter.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/user/*</url-pattern>
+    </filter-mapping>
+<!--    <filter-mapping>-->
+<!--        <filter-name>UserFilter</filter-name>-->
+<!--        <url-pattern>/user/*</url-pattern>-->
+<!--    </filter-mapping>-->
+
+<!--    <filter-mapping>&lt;!&ndash;những link cần đăng nhập, có thể dùng chung user với admin &ndash;&gt;-->
+<!--        <filter-name>LoginFilter</filter-name>-->
+<!--        <url-pattern>/protected/*</url-pattern>-->
+<!--    </filter-mapping>-->
+
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>Filter.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name><!--chỉ có admin -->
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+    <!--    ==================END FILTER PART-->
+
+    <servlet>
+        <servlet-name>ServletRegister</servlet-name>
+        <servlet-class>Controller.ServletRegister</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletRegister</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletLogin</servlet-name>
+        <servlet-class>Controller.ServletLogin</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletLogin</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletVerifyMail</servlet-name>
+        <servlet-class>Controller.ServletVerifyMail</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletVerifyMail</servlet-name>
+        <url-pattern>/active/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletIndex</servlet-name>
+        <servlet-class>Controller.ServletIndex</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletIndex</servlet-name>
+        <url-pattern>/index</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletLogout</servlet-name>
+        <servlet-class>Controller.ServletLogout</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletLogout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletResetPassword</servlet-name>
+        <servlet-class>Controller.Auth.ServletResetPassword</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletResetPassword</servlet-name>
+        <url-pattern>/reset-password</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletForgotPassword</servlet-name>
+        <servlet-class>Controller.Auth.ServletForgotPassword</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletForgotPassword</servlet-name>
+        <url-pattern>/forgot-password</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletPayment</servlet-name>
+        <servlet-class>ServletPayment</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletPayment</servlet-name>
+        <url-pattern>/payment</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletRules</servlet-name>
+        <servlet-class>Controller.ServletRules</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletRules</servlet-name>
+        <url-pattern>/rules</url-pattern>
+    </servlet-mapping>
+    <!--    ==================USER PART-->
+    <servlet>
+        <servlet-name>ServletProfile</servlet-name>
+        <servlet-class>Controller.User.Profile.ServletProfile</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletProfile</servlet-name>
+        <url-pattern>/user/profile</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletChangeRoom</servlet-name>
+        <servlet-class>Controller.User.ChangeRoom.ServletChangeRoom</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletChangeRoom</servlet-name>
+        <url-pattern>/user/change-room</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletUpdateAvatar</servlet-name>
+        <servlet-class>Controller.User.Profile.ServletUpdateAvatar</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletUpdateAvatar</servlet-name>
+        <url-pattern>/update-avatar</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletBookRoom</servlet-name>
+        <servlet-class>Controller.User.BookRoom.ServletViewRooms</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletBookRoom</servlet-name>
+        <url-pattern>/user/book-rooms</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletRoomDetail</servlet-name>
+        <servlet-class>Controller.User.BookRoom.ServletRoomDetail</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletRoomDetail</servlet-name>
+        <url-pattern>/user/book-rooms/detail</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletBills</servlet-name>
+        <servlet-class>Controller.User.Bills.ServletBills</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletBills</servlet-name>
+        <url-pattern>/user/bills</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletUser</servlet-name>
+        <servlet-class>Controller.Admin.User.ServletUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletUser</servlet-name>
+        <url-pattern>/admin/manage-users</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletVieUserInRoom</servlet-name>
+        <servlet-class>Controller.User.BookRoom.ServletVieUserInRoom</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletVieUserInRoom</servlet-name>
+        <url-pattern>/user/view-user-in-room</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletViewStudentInfo</servlet-name>
+        <servlet-class>Controller.User.ServletViewStudentInfo</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletViewStudentInfo</servlet-name>
+        <url-pattern>/user/view-student-info</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletViewAdmins</servlet-name>
+        <servlet-class>Controller.User.ServletViewAdmins</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletViewAdmins</servlet-name>
+        <url-pattern>/user/admins</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletViewAllNotification</servlet-name>
+        <servlet-class>Controller.User.Notification.ServletViewAllNotification</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletViewAllNotification</servlet-name>
+        <url-pattern>/user/view-all-notification</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletViewNotificationDetail</servlet-name>
+        <servlet-class>Controller.User.Notification.ServletViewNotificationDetail</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletViewNotificationDetail</servlet-name>
+        <url-pattern>/user/view-notification-detail</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletUserCancels</servlet-name>
+        <servlet-class>Controller.User.Cancels.ServletUserCancels</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletUserCancels</servlet-name>
+        <url-pattern>/user/view-cancels</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletViewChangeRoomsUser</servlet-name>
+        <servlet-class>Controller.User.ChangeRoom.ServletViewChangeRooms</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletViewChangeRoomsUser</servlet-name>
+        <url-pattern>/user/view-changes</url-pattern>
+    </servlet-mapping>
+    <!--    ==================END USER PART-->
+    <!--    ==================ADMIN PART-->
+    <servlet>
+        <servlet-name>ServletBuilding</servlet-name>
+        <servlet-class>Controller.Admin.Building.ServletBuilding</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletBuilding</servlet-name>
+        <url-pattern>/admin/manage-buildings</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletViewBills</servlet-name>
+        <servlet-class>Controller.Admin.ExtraBill.ServletViewBills</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletViewBills</servlet-name>
+        <url-pattern>/admin/view-bills-in-extra</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletSendMailExtraBill</servlet-name>
+        <servlet-class>Controller.Admin.ExtraBill.ServletSendMailExtraBill</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletSendMailExtraBill</servlet-name>
+        <url-pattern>/admin/send-mail-extra-bill</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletExtraBill</servlet-name>
+        <servlet-class>Controller.Admin.ExtraBill.ServletExtraBill</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletExtraBill</servlet-name>
+        <url-pattern>/admin/manage-extra-bills</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletViewMembersInRoom</servlet-name>
+        <servlet-class>Controller.Admin.Room.ServletViewMembersInRoom</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletViewMembersInRoom</servlet-name>
+        <url-pattern>/admin/view-members-in-rooms</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletViewChangeRooms</servlet-name>
+        <servlet-class>Controller.Admin.ChangeRoom.ServletViewChangeRooms</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletViewChangeRooms</servlet-name>
+        <url-pattern>/admin/manage-change-rooms</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletDeleteBuilding</servlet-name>
+        <servlet-class>Controller.Admin.Building.ServletDeleteBuilding</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletDeleteBuilding</servlet-name>
+        <url-pattern>/admin/delete-building</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletUpdateBuilding</servlet-name>
+        <servlet-class>Controller.Admin.Building.ServletUpdateBuilding</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletUpdateBuilding</servlet-name>
+        <url-pattern>/admin/update-building</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletFloor</servlet-name>
+        <servlet-class>Controller.Admin.Floor.ServletFloor</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletFloor</servlet-name>
+        <url-pattern>/admin/manage-floors</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletDeleteFloor</servlet-name>
+        <servlet-class>Controller.Admin.Floor.ServletDeleteFloor</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletDeleteFloor</servlet-name>
+        <url-pattern>/admin/delete-floor</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletRoom</servlet-name>
+        <servlet-class>Controller.Admin.Room.ServletRoom</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletRoom</servlet-name>
+        <url-pattern>/admin/manage-rooms</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletDeleteRoom</servlet-name>
+        <servlet-class>Controller.Admin.Room.ServletDeleteRoom</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletDeleteRoom</servlet-name>
+        <url-pattern>/admin/delete-room</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletBill</servlet-name>
+        <servlet-class>Controller.Admin.Bill.ServletBill</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletBill</servlet-name>
+        <url-pattern>/admin/manage-bills</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletUserInfo</servlet-name>
+        <servlet-class>Controller.Admin.User.ServletUserInfo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletUdateRoom</servlet-name>
+        <servlet-class>Controller.Admin.Room.ServletUpdateRoom</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ServletUdateRoom</servlet-name>
+        <url-pattern>/admin/update-room</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletUserInfo</servlet-name>
+        <url-pattern>/admin/user-info</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletNotification</servlet-name>
+        <servlet-class>Controller.Admin.Notification.ServletNotification</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletNotification</servlet-name>
+        <url-pattern>/admin/manage-notification</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletDeleteNotification</servlet-name>
+        <servlet-class>Controller.Admin.Notification.ServletDeleteNotification</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletDeleteNotification</servlet-name>
+        <url-pattern>/admin/delete-notification</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletUpdateNotifcation</servlet-name>
+        <servlet-class>Controller.Admin.Notification.ServletUpdateNotifcation</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletUpdateNotifcation</servlet-name>
+        <url-pattern>/admin/update-notification</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletCancel</servlet-name>
+        <servlet-class>Controller.Admin.Cancel.ServletCancel</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletCancel</servlet-name>
+        <url-pattern>/admin/manage-cancels</url-pattern>
+    </servlet-mapping>
+    <!--    ==================END ADMIN PART-->
+
+    <welcome-file-list>
+        <welcome-file>index</welcome-file>
+    </welcome-file-list>
+</web-app>
