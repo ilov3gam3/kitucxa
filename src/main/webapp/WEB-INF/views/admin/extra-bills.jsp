@@ -44,7 +44,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="semester"></label>
-                <h4>Kì hiện tại ${current} bắt đầu từ ngày ${currents[0]} đến ngày ${currents[0]}</h4>
+                <h4>Kì hiện tại ${current} bắt đầu từ ngày ${currents[0]} đến ngày ${currents[1]}</h4>
             </div>
         </div>
     </div>
@@ -56,9 +56,11 @@
             <thead>
             <tr>
                 <th scope="col">Tên phòng</th>
-                <th scope="col">Số điện(KWh)</th>
+                <th scope="col">Điện đầu kì(KWh)</th>
+                <th scope="col">Điện cuối kì(KWh)</th>
                 <th scope="col">Giá điện(vnđ)</th>
-                <th scope="col">Số khối(m³)</th>
+                <th scope="col">Nước đầu kì(m³)</th>
+                <th scope="col">Nước cuối kì kì(m³)</th>
                 <th scope="col">Giá nước(vnđ)</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col">Action</th>
@@ -80,31 +82,37 @@
                         </c:if>
                     <th scope="row">${item.getRoom_name()} <a href="${pageContext.request.contextPath}/admin/view-bills-in-extra?room_id=${item.getRoom_id()}&start=${semesters[0]}&end=${semesters[1]}">Chi tiết</a></th>
                     <th scope="row">
-                        <input type="text" class="form-control" name="electricity" value="${item.getElectricity()}" >
+                        <input type="text" class="form-control" name="electricity" value="${item.getElectricity() == 0 ? "" : item.getElectricity()}" >
+                    </th>
+                        <th scope="row">
+                            <input type="text" class="form-control" name="electricity_end" value="${item.getElectricity_end() == 0 ? "" : item.getElectricity_end()}" >
+                        </th>
+                    <th scope="row">
+                        <input type="text" class="form-control" name="electricity_price" value="${item.getElectricity_price() == 0 ? "" : item.getElectricity_price()}" >
                     </th>
                     <th scope="row">
-                        <input type="text" class="form-control" name="electricity_price" value="${item.getElectricity_price()}" >
+                        <input type="text" class="form-control" name="water" value="${item.getWater() == 0 ? "" : item.getWater()}" >
                     </th>
+                        <th scope="row">
+                            <input type="text" class="form-control" name="water_end" value="${item.getWater_end() == 0 ? "" : item.getWater_end()}" >
+                        </th>
                     <th scope="row">
-                        <input type="text" class="form-control" name="water" value="${item.getWater()}" >
+                        <input type="text" class="form-control" name="water_price" value="${item.getWater_price() == 0 ? "" : item.getWater_price()}" >
                     </th>
-                    <th scope="row">
-                        <input type="text" class="form-control" name="water_price" value="${item.getWater_price()}" >
-                    </th>
-                    <th>
+                    <th style="width: 12%">
                         <select class="form-control" name="status" id="">
                             <option value="true" ${item.isStatus() ? "selected" : ""}>Đã thanh toán</option>
                             <option value="false" ${!item.isStatus() ? "selected" : ""}>Chưa thanh toán</option>
                         </select>
                     </th>
-                    <th>
+                    <th style="width: 12%;">
                         <div class="row m-1">
                             <div class="col-md-12">
                                 <c:if test="${item.getId() > 0}">
-                                    <c:if test="${item.getElectricity() < max_electricity && item.getWater() < max_water}">
+                                    <c:if test="${(item.getElectricity_end() - item.getElectricity() ) <= max_electricity && (item.getWater_end() -item.getWater()) <= max_water}">
                                             <button type="button" disabled class="btn btn-success" style="width: 100%;">Chưa đủ hạn mức</button>
                                     </c:if>
-                                    <c:if test="${item.getElectricity() > max_electricity || item.getWater() > max_water}">
+                                    <c:if test="${(item.getElectricity_end() - item.getElectricity()) > max_electricity || (item.getWater_end() - item.getWater()) > max_water}">
                                         <a href="${pageContext.request.contextPath}/admin/send-mail-extra-bill?extra_bill_id=${item.getId()}">
                                             <button type="button" class="btn btn-success" style="width: 100%;">Gửi thông báo</button>
                                         </a>

@@ -21,6 +21,7 @@
       <th>Tên người huỷ</th>
       <th>Tên phòng</th>
       <th>Lý do</th>
+      <th>Lý do Admin</th>
       <th>Kì</th>
       <th>Trạng thái</th>
       <th>Tạo lúc</th>
@@ -31,10 +32,15 @@
     <c:forEach var="item" items="${cancels}">
       <tr>
         <td>${item.getId()}</td>
-        <td>${item.getBill_id()}</td>
+        <td>
+          <a href="${pageContext.request.contextPath}/admin/manage-bills?bill_id=${item.getBill_id()}">
+              ${item.getBill_id()}
+          </a>
+        </td>
         <td>${item.getUsername()}</td>
         <td>${item.getRoom_name()}</td>
         <td>${item.getReason()}</td>
+        <td>${item.getAdmin_reason()}</td>
         <td>${item.getSemester()}</td>
         <td>${item.getStatus().getValue() == 1 ? "<p class='text-success'>đồng ý</p>" :  (item.getStatus().getValue() == 0 ? "<p class='text-info'>chưa xác nhận</p>" : "<p class='text-danger'>không đồng ý</p>")}</td>
         <td>${item.getCreated_at()}</td>
@@ -69,7 +75,11 @@
             <input type="text" hidden="hidden" name="cancel_id" value="${item.getId()}">
             <div class="form-group">
               <label for="reason">Lý do</label>
-              <textarea required class="form-control" name="reason" id="reason" rows="10" readonly >${item.getReason()}</textarea>
+              <textarea required class="form-control" name="reason" id="reason" rows="5" readonly >${item.getReason()}</textarea>
+            </div>
+            <div class="form-group">
+              <label for="admin_reason">Lý do của admin</label>
+              <textarea required class="form-control" name="admin_reason" id="admin_reason" rows="5" ></textarea>
             </div>
             <div class="form-group">
               <label for="status">Trạng thái</label>

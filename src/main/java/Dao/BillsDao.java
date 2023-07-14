@@ -12,6 +12,21 @@ public class BillsDao {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
+    public boolean updateReview(int bill_id, String review, int rate){
+        String sql = "update bills set evaluation = ?, stars = ? where id = ?";
+        connection = Connect.getConnection();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, review);
+            preparedStatement.setInt(2, rate);
+            preparedStatement.setInt(3, bill_id);
+            int row = preparedStatement.executeUpdate();
+            return row> 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     public int registerARoom(int user_id, String[] time, int room_id){
         String sql = "insert into bills(room_id, user_id, price, status, evaluation, stars, start, [end], created_at) values(?, ?, (select price from rooms where id = ?), 0, '', -1, ?, ?, ?)";
         try {
@@ -79,7 +94,7 @@ public class BillsDao {
                 "from bills\n" +
                 "    inner join rooms on bills.room_id = rooms.id\n" +
                 "    left join cancels on cancels.bill_id = bills.id\n" +
-                "    left join (select top 1 changes.* from changes group by bill_id, id, reason, room_to_id, status, created_at order by id desc ) as c on bills.id = c.bill_id\n" +
+                "    left join (select top 1 changes.* from changes group by bill_id, id, reason, room_to_id, status, created_at, admin_reason order by id desc ) as c on bills.id = c.bill_id\n" +
                 "where bills.user_id = ? order by bills.id desc";
         try {
             connection = Connect.getConnection();
@@ -218,7 +233,7 @@ public class BillsDao {
                 "    inner join rooms on bills.room_id = rooms.id\n" +
                 "    left join extra_bills on rooms.id = extra_bills.room_id and extra_bills.start = ? and extra_bills.[end] = ?\n" +
                 "where bills.status = 1 and bills.start = ? and bills.[end] = ?\n" +
-                "group by bills.room_id, rooms.name, bills.start, bills.[end], bills.price, extra_bills.id, electricity, electricity_price, water, water_price, extra_bills.status, extra_bills.room_id, extra_bills.start, extra_bills.[end]";
+                "group by bills.room_id, rooms.name, bills.start, bills.[end], bills.price, extra_bills.id, electricity, electricity_price, water, water_price, extra_bills.status, extra_bills.room_id, extra_bills.start, extra_bills.[end], extra_bills.electricity_end, extra_bills.water_end";
         connection = Connect.getConnection();
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -239,7 +254,9 @@ public class BillsDao {
                     resultSet.getString(13),
                     resultSet.getString(14),
                     resultSet.getString(2),
-                    resultSet.getInt(5)
+                    resultSet.getInt(5),
+                    resultSet.getInt(15),
+                    resultSet.getInt(16)
                 ));
             }
             return arrayList;

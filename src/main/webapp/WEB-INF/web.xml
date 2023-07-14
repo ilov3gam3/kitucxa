@@ -13,7 +13,7 @@
         <servlet-name>myServlet</servlet-name>
         <url-pattern>/my-servlet</url-pattern>
     </servlet-mapping>
-         <!--    ==================FILTER PART-->
+             <!--    ==================FILTER PART-->
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>Filter.LoginFilter</filter-class>
@@ -261,6 +261,34 @@
         <servlet-name>ServletViewChangeRoomsUser</servlet-name>
         <url-pattern>/user/view-changes</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletChat</servlet-name>
+        <servlet-class>Controller.Chat.ServletChat</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletChat</servlet-name>
+        <url-pattern>/user/chat</url-pattern>
+    </servlet-mapping>
+<!--        +++++++++++++++++++API++++++++++++++++-->
+    <servlet>
+        <servlet-name>ServletGetAllAdmins</servlet-name>
+        <servlet-class>Controller.Chat.ServletUploadFiles</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletGetAllAdmins</servlet-name>
+        <url-pattern>/user/chat/upload-file</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletGetAllUsers</servlet-name>
+        <servlet-class>Controller.Chat.ServletGetAllUsers</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletGetAllUsers</servlet-name>
+        <url-pattern>/user/chat/get-all-users</url-pattern>
+    </servlet-mapping>
+<!--        +++++++++++++++++++API++++++++++++++++-->
     <!--    ==================END USER PART-->
     <!--    ==================ADMIN PART-->
     <servlet>

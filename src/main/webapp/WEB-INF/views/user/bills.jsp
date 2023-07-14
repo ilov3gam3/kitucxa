@@ -69,31 +69,42 @@
                         </div>
                     </div>
                 </td>
-                <td>
-                    <%--<c:if test="${item.getEvaluation() == ''}">
+                <td class="text-center">
+                    <c:if test="${item.getEvaluation() == ''}">
                         <fmt:parseDate var="start_date_current_semester" value="${current_semester[0]}" pattern="yyyy-MM-dd" />
                         <fmt:parseDate var="this_bill_end" value="${item.getEnd()}" pattern="yyyy-MM-dd" />
-                        current semester start : ${start_date_current_semester}<br>
-                        this bill end at : ${this_bill_end}
-                        <br>
                         <c:if test="${start_date_current_semester gt this_bill_end}">
-                                &lt;%&ndash;cho nhận xét&ndash;%&gt;
+                                <%--cho nhận xét --%>
                             <a href="${pageContext.request.contextPath}/user/make-review?bill_id=${item.getId()}">
                                 <button class="btn btn-success">Nhận xét</button>
                             </a>
                         </c:if>
                         <c:if test="${start_date_current_semester lt this_bill_end}">
-                            &lt;%&ndash;khong cho nhận xét&ndash;%&gt;
-                            <c:out value="start_date_current_semester < this_bill_end"/>
+                            chưa có nhận xét
                         </c:if>
-                    </c:if>--%>
-                    ${item.getEvaluation() == "" ? "Chưa có đánh giá" : item.getEvaluation()}
+                    </c:if>
+                    <c:if test="${item.getEvaluation() != ''}">
+                        ${item.getEvaluation()}
+                    </c:if>
                 </td>
                 <c:if test="${item.getStars() == -1}">
                     <td>Chưa có đánh giá</td>
                 </c:if>
                 <c:if test="${item.getStars() != -1}">
-                    <td>${item.getStars()} <i class="fas fa-star"></i></td>
+                <td>
+                    <div class="rate">
+                        <input disabled type="radio" id="star5" name="rate" value="5" ${item.getStars() == 5 ? "checked" : ""}/>
+                        <label for="star5" title="text">5 stars</label>
+                        <input disabled type="radio" id="star4" name="rate" value="4" ${item.getStars() == 4 ? "checked" : ""}/>
+                        <label for="star4" title="text">4 stars</label>
+                        <input disabled type="radio" id="star3" name="rate" value="3" ${item.getStars() == 3 ? "checked" : ""}/>
+                        <label for="star3" title="text">3 stars</label>
+                        <input disabled type="radio" id="star2" name="rate" value="2" ${item.getStars() == 2 ? "checked" : ""}/>
+                        <label for="star2" title="text">2 stars</label>
+                        <input disabled type="radio" id="star1" name="rate" value="1" ${item.getStars() == 1 ? "checked" : ""}/>
+                        <label for="star1" title="text">1 star</label>
+                    </div>
+                </td>
                 </c:if>
                 <td title="${item.getStart()} - ${item.getEnd()}">${item.getSemester()}</td>
                 <td>${item.getCreated_at()}</td>
@@ -239,7 +250,7 @@
                         <input type="text" hidden="hidden" name="bill_id" value="${item.getId()}">
                         <div class="form-group">
                             <label for="reason">Lý do huỷ</label>
-                            <textarea required class="form-control m-1" name="reason" id="reason" rows="10"></textarea>
+                            <textarea required class="form-control m-1" name="reason" id="reason" rows="5"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

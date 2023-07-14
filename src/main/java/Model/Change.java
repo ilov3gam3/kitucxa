@@ -14,8 +14,9 @@ public class Change {
     public String start;
     public String end;
     public String semester;
+    public String admin_reason;
 
-    public Change(int id, int bill_id, String reason, int room_to_id, Status status, String created_at, int user_id, String username, String room_from_name, String room_to_name,String start, String end) {
+    public Change(int id, int bill_id, String reason, int room_to_id, Status status, String created_at, int user_id, String username, String room_from_name, String room_to_name,String start, String end, String admin_reason) {
         this.id = id;
         this.bill_id = bill_id;
         this.reason = reason;
@@ -29,6 +30,11 @@ public class Change {
         this.start = start;
         this.end = end;
         this.semester = Semester.getSemester(start, end);
+        this.admin_reason = admin_reason;
+    }
+
+    public String getAdmin_reason() {
+        return admin_reason;
     }
 
     public int getId() {

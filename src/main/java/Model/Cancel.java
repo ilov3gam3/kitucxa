@@ -12,8 +12,9 @@ public class Cancel {
     public String end;
     public String semester;
     public String room_name;
+    public String admin_reason;
 
-    public Cancel(int id, int bill_id, String reason, Status status, String created_at, String username, int user_id, String start, String end, String room_name) {
+    public Cancel(int id, int bill_id, String reason, Status status, String created_at, String username, int user_id, String start, String end, String room_name, String admin_reason) {
         this.id = id;
         this.bill_id = bill_id;
         this.reason = reason;
@@ -25,6 +26,11 @@ public class Cancel {
         this.end = end;
         this.room_name = room_name;
         this.semester = Semester.getSemester(this.start, this.end);
+        this.admin_reason = admin_reason;
+    }
+
+    public String getAdmin_reason() {
+        return admin_reason;
     }
 
     public int getId() {

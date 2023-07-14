@@ -14,6 +14,29 @@ public class User {
     public boolean admin;
     public boolean verified;
 
+    public String last_chat_content;
+    public boolean last_chat_is_img;
+    public String last_chat_time;
+    public String last_chat_sender;
+    public User(int id, String student_code, String name, String email, String address, String tel, String birthday, String password, String avatar, String verify_key, boolean admin, boolean verified, String last_chat_content, boolean last_chat_is_img, String last_chat_time, String last_chat_sender) {
+        this.id = id;
+        this.student_code = student_code;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.tel = tel;
+        this.birthday = birthday;
+        this.password = password;
+        this.avatar = avatar;
+        this.verify_key = verify_key;
+        this.admin = admin;
+        this.verified = verified;
+        this.last_chat_content = last_chat_content;
+        this.last_chat_is_img = last_chat_is_img;
+        this.last_chat_time = last_chat_time;
+        this.last_chat_sender = last_chat_sender;
+    }
+
     public User(int id, String student_code, String name, String email, String address, String tel, String birthday, String password, String avatar, String verify_key, boolean admin, boolean verified) {
         this.id = id;
         this.student_code = student_code;

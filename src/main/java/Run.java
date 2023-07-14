@@ -7,10 +7,7 @@ import Model.Semester;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class Run {
     public static String[] getNextSemester(){
@@ -62,7 +59,7 @@ public class Run {
         } else {
             System.out.println("cac");;
         }*/
-        ExtraBillDao extraBillDao = new ExtraBillDao();
+        /*ExtraBillDao extraBillDao = new ExtraBillDao();
         ArrayList<ExtraBill> arrayList = extraBillDao.getExtraWithUsername(Integer.parseInt("4"));
         String[] addresses = new String[arrayList.size()];
         String[] contents = new String[arrayList.size()];
@@ -73,6 +70,17 @@ public class Run {
                     "Tiền nước : ("+arrayList.get(i).water+"-"+ Config.map.get("max_water") +") * "+arrayList.get(i).water_price+" = "+ (arrayList.get(i).water - Integer.parseInt(Config.map.get("max_water"))) * arrayList.get(i).water_price +
                     "</h1>";
             System.out.println(Arrays.toString(contents));
+        }*/
+        System.out.print("nhập n : ");
+        int n = new Scanner(System.in).nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            System.out.print("nhập giá trị phần tử : ");
+            int value = new Scanner(System.in).nextInt();
+            System.out.print("nhập index : ");
+            int index = new Scanner(System.in).nextInt();
+            arr[index]= value;
         }
+        System.out.println(Arrays.toString(arr));
     }
 }

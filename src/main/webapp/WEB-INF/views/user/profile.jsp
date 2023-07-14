@@ -27,15 +27,15 @@
                 </div>
                 <div class="form-group m-2">
                     <label for="current_password">Mật khẩu hiện tại</label>
-                    <input class="form-control" type="password" id="current_password" name="current_password">
+                    <input class="form-control" type="password" id="current_password" name="current_password" placeholder="Mật khẩu hiện tại">
                 </div>
                 <div class="form-group m-2">
                     <label for="new_password">Mật khẩu mới</label>
-                    <input class="form-control" type="password" id="new_password" name="new_password">
+                    <input class="form-control" type="password" id="new_password" name="new_password" placeholder="Mật khẩu mới">
                 </div>
                 <div class="form-group m-2">
                     <label for="re_password">Nhập lại mật khẩu mới</label>
-                    <input class="form-control" type="password" id="re_password" name="re_password">
+                    <input class="form-control" type="password" id="re_password" name="re_password" placeholder="Nhập lại mật khẩu mới">
                 </div>
                 <button class="btn btn-success" style="width: 100%">submit</button>
             </form>
@@ -54,7 +54,6 @@
                 </div>
                 <button class="btn btn-success mt-2" style="width: 100%">submit</button>
             </form>
-
         </div>
     </div>
 </div>

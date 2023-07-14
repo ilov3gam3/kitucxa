@@ -50,11 +50,50 @@
             text-overflow: ellipsis;
             max-width: 0;
         }
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .rate {
+            float: left;
+            height: 46px;
+            padding: 0 10px;
+        }
+        .rate:not(:checked) > input {
+            position:absolute;
+            top:-9999px;
+        }
+        .rate:not(:checked) > label {
+            float:right;
+            width:1em;
+            overflow:hidden;
+            white-space:nowrap;
+            cursor:pointer;
+            font-size:30px;
+            color:#ccc;
+        }
+        .rate:not(:checked) > label:before {
+            content: '★ ';
+        }
+        .rate > input:checked ~ label {
+            color: #ffc700;
+        }
+        .rate:not(:checked) > label:hover,
+        .rate:not(:checked) > label:hover ~ label {
+            color: #deb217;
+        }
+        .rate > input:checked + label:hover,
+        .rate > input:checked + label:hover ~ label,
+        .rate > input:checked ~ label:hover,
+        .rate > input:checked ~ label:hover ~ label,
+        .rate > label:hover ~ input:checked ~ label {
+            color: #c59b08;
+        }
     </style>
 </head>
     <% User user = (User) session.getAttribute("user"); %>
-<body class="sb-nav-fixed">
-<nav class="sb-topnav navbar navbar-expand navbar-light bg-light">
+<body class="sb-nav-fixed" <%= request.getRequestURI().endsWith("chat.jsp") ? "style=\"overflow: hidden \"" : "2"  %> >
+<nav class="sb-topnav navbar navbar-expand navbar-light">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="${pageContext.request.contextPath}">
         <img style="width: 70%;"
@@ -85,12 +124,16 @@
     <%} else {%>
     <div class="sb-sidenav-footer bell-icon dropstart" style="margin-right: 30px;">
         <% Data data = new NotificationDao().getCurrentNotifications();%>
-        <% ArrayList<Notification> current = data.currentNotifications; %>
+        <% ArrayList<Notification> current = data.currentNotifications;
+            request.setAttribute("current", current);
+        %>
         <% ArrayList<Notification> ended = data.top5Notification; %>
         <button type="button" style="background-color: transparent; border: none;" id="dropdownMenuButton1"
                 data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-regular fa-bell fa-xl"></i>
-            <span class="badge"><%=current.size()%></span>
+            <% if (current.size() > 0) {%>
+                <span class="badge"><%=current.size()%></span>
+            <% } %>
         </button>
         <% if (user.isAdmin()) { %>
         <ul class="dropdown-menu" style="width: 500px" aria-labelledby="dropdownMenuButton1">
@@ -214,75 +257,79 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <% if (user != null) {%>
-                    <% if (user.isAdmin()) {%>
-                        <div class="sb-sidenav-menu-heading">Admin</div>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-buildings">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Quản lý toà nhà
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-floors">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Quản lý tầng
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-rooms">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Quản lý phòng
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-bills">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Quản lý hoá đơn
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-users">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Quản lý người dùng
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-notification">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Quản lý thông báo
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-cancels">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Quản lý huỷ phòng
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-change-rooms">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Quản lý chuyển phòng.
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-extra-bills">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Tiền điện, nước
-                        </a>
-                    <%} %>
-                        <div class="sb-sidenav-menu-heading">User</div>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/user/book-rooms">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Đặt phòng
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/user/bills">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Hoá đơn của bạn
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/user/view-cancels">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Yêu cầu huỷ phòng
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/user/view-changes">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            yêu cầu chuyển phòng
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/payment">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Thanh toán
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/rules">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Quy định
-                        </a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/user/admins">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Danh sách quản trị viên
-                        </a>
-                    <%}%>
+                        <% if (user.isAdmin()) {%>
+                            <div class="sb-sidenav-menu-heading">Admin</div>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-buildings">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-building"></i></div>
+                                Quản lý toà nhà
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-floors">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-stairs"></i></div>
+                                Quản lý tầng
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-rooms">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-door-closed"></i></div>
+                                Quản lý phòng
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-bills">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-money-bill"></i></div>
+                                Quản lý hoá đơn
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-users">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
+                                Quản lý người dùng
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-notification">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-bell"></i></div>
+                                Quản lý thông báo
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-cancels">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-ban"></i></div>
+                                Quản lý huỷ phòng
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-change-rooms">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-arrow-right"></i></div>
+                                Quản lý chuyển phòng.
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-extra-bills">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-bolt"></i></div>
+                                Tiền điện, nước
+                            </a>
+                        <%} %>
+                            <a class="nav-link bg-secondary" href="${pageContext.request.contextPath}/user/chat">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-door-open"></i></div>
+                                Chat
+                            </a>
+                            <div class="sb-sidenav-menu-heading">User</div>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/user/book-rooms">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-door-open"></i></div>
+                                Đặt phòng
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/user/bills">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-money-bill"></i></div>
+                                Hoá đơn của bạn
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/user/view-cancels">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-ban"></i></div>
+                                Yêu cầu huỷ phòng
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/user/view-changes">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-arrow-right"></i></div>
+                                yêu cầu chuyển phòng
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/payment">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-money-bill"></i></div>
+                                Thanh toán
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/rules">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                                Quy định
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/user/admins">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                                Danh sách quản trị viên
+                            </a>
+                        <%}%>
                 </div>
             </div>
 

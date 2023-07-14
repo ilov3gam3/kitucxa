@@ -32,8 +32,9 @@ public class ServletCancel extends HttpServlet {
         int cancel_id = Integer.parseInt(req.getParameter("cancel_id"));
         int bill_id = Integer.parseInt(req.getParameter("bill_id"));
         int status = Integer.parseInt(req.getParameter("status"));
+        String admin_reason = req.getParameter("admin_reason");
         CancelDao cancelDao = new CancelDao();
-        if (cancelDao.updateStatus(cancel_id, status, bill_id)){
+        if (cancelDao.updateStatus(cancel_id, status, bill_id, admin_reason)){
             req.getSession().setAttribute("session_mess", "success|Thay đổi thành công");
         } else {
             req.getSession().setAttribute("session_mess", "error|Thay đổi thất bại");

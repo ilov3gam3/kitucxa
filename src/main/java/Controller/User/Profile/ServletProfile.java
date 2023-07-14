@@ -54,8 +54,6 @@ public class ServletProfile extends HttpServlet {
                 request.getSession().setAttribute("session_para", "error|Mật khẩu hiện tại sai.");
             }
         }
-
-
         response.sendRedirect(request.getContextPath() + "/user/profile");
     }
 }

@@ -46,7 +46,7 @@ public class CancelDao {
                 "    inner join bills on cancels.bill_id = bills.id \n" +
                 "    inner join users on bills.user_id = users.id\n" +
                 "    inner join rooms on bills.room_id = rooms.id" +
-                "order by cancels.id desc";
+                " order by cancels.id desc";
         connection = Connect.getConnection();
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -63,7 +63,8 @@ public class CancelDao {
                         resultSet.getInt("user_id"),
                         resultSet.getString("start"),
                         resultSet.getString("end"),
-                        resultSet.getString("room_name")
+                        resultSet.getString("room_name"),
+                        resultSet.getString("admin_reason")
                 ));
             }
             return arrayList;
@@ -72,15 +73,16 @@ public class CancelDao {
             return null;
         }
     }
-    public boolean updateStatus(int cancel_id, int status, int bill_id){
+    public boolean updateStatus(int cancel_id, int status, int bill_id, String admin_reason){
         if (status == 1){
-            String sql = "update cancels set status = ? where id = ?; update bills set status = -1 where id = ?";
+            String sql = "update cancels set status = ?, admin_reason = ? where id = ?; update bills set status = -1 where id = ?";
             connection = Connect.getConnection();
             try {
                 preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setInt(1, status);
-                preparedStatement.setInt(2, cancel_id);
-                preparedStatement.setInt(3, bill_id);
+                preparedStatement.setString(2, admin_reason);
+                preparedStatement.setInt(3, cancel_id);
+                preparedStatement.setInt(4, bill_id);
                 int row = preparedStatement.executeUpdate();
                 return row > 0;
             } catch (SQLException e) {
@@ -88,12 +90,13 @@ public class CancelDao {
                 return false;
             }
         } else {
-            String sql = "update cancels set status = ? where id = ?; ";
+            String sql = "update cancels set status = ?, admin_reason = ? where id = ?; ";
             connection = Connect.getConnection();
             try {
                 preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setInt(1, status);
                 preparedStatement.setInt(2, cancel_id);
+                preparedStatement.setInt(3, bill_id);
                 int row = preparedStatement.executeUpdate();
                 return row > 0;
             } catch (SQLException e) {
@@ -126,7 +129,8 @@ public class CancelDao {
                         resultSet.getInt("user_id"),
                         resultSet.getString("start"),
                         resultSet.getString("end"),
-                        resultSet.getString("room_name")
+                        resultSet.getString("room_name"),
+                        resultSet.getString("admin_reason")
                 ));
             }
             return arrayList;

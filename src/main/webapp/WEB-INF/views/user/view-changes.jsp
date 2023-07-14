@@ -20,6 +20,7 @@
             <th>Từ phòng</th>
             <th>Đến phòng</th>
             <th>Lý do</th>
+            <th>Lý do Admin</th>
             <th>Kì</th>
             <th>Trạng thái</th>
             <th>Tạo lúc</th>
@@ -32,6 +33,7 @@
                 <td>${item.getRoom_from_name()}</td>
                 <td>${item.getRoom_to_name()}</td>
                 <td>${item.getReason()}</td>
+                <td>${item.getAdmin_reason()}</td>
                 <td>${item.getSemester()}</td>
                 <td>${item.getStatus().getValue() == 1 ? "<p class='text-success'>đồng ý</p>" :  (item.getStatus().getValue() == 0 ? "<p class='text-info'>chưa xác nhận</p>" : "<p class='text-danger'>không đồng ý</p>")}</td>
                 <td>${item.getCreated_at()}</td>

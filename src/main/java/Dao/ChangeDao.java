@@ -70,7 +70,8 @@ public class ChangeDao {
                         resultSet.getString("room_from_name"),
                         resultSet.getString("room_to_name"),
                         resultSet.getString("start"),
-                        resultSet.getString("end")
+                        resultSet.getString("end"),
+                        resultSet.getString("admin_reason")
                 ));
             }
             return arrayList;
@@ -79,13 +80,14 @@ public class ChangeDao {
             return arrayList;
         }
     }
-    public boolean changeStatus(int id, int status){
-        String sql = "update changes set status = ? where id = ?;";
+    public boolean changeStatus(int id, int status, String admin_reason){
+        String sql = "update changes set status = ?, admin_reason = ? where id = ?;";
         connection = Connect.getConnection();
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, status);
-            preparedStatement.setInt(2,id);
+            preparedStatement.setString(2,admin_reason);
+            preparedStatement.setInt(3,id);
             int row = preparedStatement.executeUpdate();
             return row > 0;
         } catch (SQLException e) {
@@ -126,7 +128,8 @@ public class ChangeDao {
                         resultSet.getString("room_from_name"),
                         resultSet.getString("room_to_name"),
                         resultSet.getString("start"),
-                        resultSet.getString("end")
+                        resultSet.getString("end"),
+                        resultSet.getString("admin_reason")
                 ));
             }
             return arrayList;

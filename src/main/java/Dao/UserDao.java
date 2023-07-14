@@ -152,6 +152,55 @@ public class UserDao {
             return false;
         }
     }
+    public ArrayList<User> getAllUsersWithLassMess(int user_id){
+        ArrayList<User> arrayList = new ArrayList<>();
+        try {
+            String sql = "select users.*,\n" +
+                    "       chats.is_image   as last_chat_is_img,\n" +
+                    "       chats.content    as last_chat_content,\n" +
+                    "       chats.created_at as last_chat_time,\n" +
+                    "       chats.sender_id as last_chat_sender\n" +
+                    "from users\n" +
+                    "         left join chats on users.id = chats.sender_id or users.id = chats.receiver_id\n" +
+                    "where users.id <> ?\n" +
+                    "  and chats.created_at = (SELECT MAX(created_at)\n" +
+                    "                          FROM chats\n" +
+                    "                          WHERE (\n" +
+                    "                                        (sender_id = ? AND receiver_id = users.id)\n" +
+                    "                                        OR (sender_id = users.id AND receiver_id = ?)\n" +
+                    "                                    ))";
+            connection = Connect.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, user_id);
+            preparedStatement.setInt(2, user_id);
+            preparedStatement.setInt(3, user_id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                arrayList.add(new User(
+                        resultSet.getInt("id"),
+                        resultSet.getString("student_code"),
+                        resultSet.getString("name"),
+                        resultSet.getString("email"),
+                        resultSet.getString("address"),
+                        resultSet.getString("tel"),
+                        resultSet.getString("birthday"),
+                        resultSet.getString("password"),
+                        resultSet.getString("avatar"),
+                        resultSet.getString("verify_key"),
+                        resultSet.getBoolean("is_admin"),
+                        resultSet.getBoolean("is_verified"),
+                        resultSet.getString("last_chat_content"),
+                        resultSet.getBoolean("last_chat_is_img"),
+                        resultSet.getString("last_chat_time"),
+                        resultSet.getString("last_chat_sender")
+                ));
+            }
+            return arrayList;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
     public ArrayList<User> getAllUsers(){
         ArrayList<User> arrayList = new ArrayList<>();
         try {

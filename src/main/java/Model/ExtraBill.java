@@ -3,8 +3,10 @@ package Model;
 public class ExtraBill {
     public int id;
     public int electricity;
+    public int electricity_end;
     public int electricity_price;
     public int water;
+    public int water_end;
     public int water_price;
     public boolean status;
     public int room_id;
@@ -19,7 +21,7 @@ public class ExtraBill {
     public ExtraBill() {
     }
 
-    public void ExtraBillForSendMail(int id, int electricity, int electricity_price, int water, int water_price, boolean status, int room_id, String start, String end, String room_name, int bill_id, String username, String user_email) {
+    public void ExtraBillForSendMail(int id, int electricity, int electricity_price, int water, int water_price, boolean status, int room_id, String start, String end, String room_name, int bill_id, String username, String user_email, int electricity_end, int water_end) {
         this.id = id;
         this.electricity = electricity;
         this.electricity_price = electricity_price;
@@ -33,9 +35,11 @@ public class ExtraBill {
         this.bill_id = bill_id;
         this.username = username;
         this.user_email = user_email;
+        this.electricity_end = electricity_end;
+        this.water_end = water_end;
     }
 
-    public ExtraBill(int id, int electricity, int electricity_price, int water, int water_price, boolean status, int room_id, String start, String end, String room_name, int price) {
+    public ExtraBill(int id, int electricity, int electricity_price, int water, int water_price, boolean status, int room_id, String start, String end, String room_name, int price, int electricity_end, int water_end) {
         this.id = id;
         this.electricity = electricity;
         this.electricity_price = electricity_price;
@@ -47,6 +51,28 @@ public class ExtraBill {
         this.end = end;
         this.room_name = room_name;
         this.price = price;
+        this.electricity_end = electricity_end;
+        this.water_end = water_end;
+    }
+
+    public int getElectricity_end() {
+        return electricity_end;
+    }
+
+    public int getWater_end() {
+        return water_end;
+    }
+
+    public int getBill_id() {
+        return bill_id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getUser_email() {
+        return user_email;
     }
 
     public int getId() {

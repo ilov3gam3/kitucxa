@@ -56,25 +56,33 @@ public class ServletExtraBill extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String method = req.getParameter("method");
         String electricity = req.getParameter("electricity");
+        String electricity_end = req.getParameter("electricity_end");
         String electricity_price = req.getParameter("electricity_price");
         String water = req.getParameter("water");
+        String water_end = req.getParameter("water_end");
         String water_price = req.getParameter("water_price");
         boolean status = Boolean.parseBoolean(req.getParameter("status"));
-        if (method.equals("create")){
-            String room_id = req.getParameter("room_id");
-            String start = req.getParameter("start");
-            String end = req.getParameter("end");
-            if (new ExtraBillDao().create(room_id, start, end, electricity, electricity_price, water, water_price, status)){
-                req.getSession().setAttribute("session_mess", "success|Cập nhật thành công.");
-            }else {
-                req.getSession().setAttribute("session_mess", "error|Cập nhật không thành công.");
-            }
+        if (Integer.parseInt(electricity_end) < Integer.parseInt(electricity)){
+            req.getSession().setAttribute("session_mess", "error|Số điện cuối kì phải lớn hơn số điện đầu kì.");
+        } else if (Integer.parseInt(water_end) < Integer.parseInt(water)){
+            req.getSession().setAttribute("session_mess", "error|Số khối nước cuối kì phải lớn hơn số khối nước đầu kì.");
         } else {
-            String extra_bill_id = req.getParameter("extra_bill_id");
-            if (new ExtraBillDao().update(extra_bill_id, electricity, electricity_price, water, water_price, status)){
-                req.getSession().setAttribute("session_mess", "success|Thêm mới thành công.");
+            if (method.equals("create")){
+                String room_id = req.getParameter("room_id");
+                String start = req.getParameter("start");
+                String end = req.getParameter("end");
+                if (new ExtraBillDao().create(room_id, start, end, electricity, electricity_price, water, water_price, status, electricity_end, water_end)){
+                    req.getSession().setAttribute("session_mess", "success|Cập nhật thành công.");
+                }else {
+                    req.getSession().setAttribute("session_mess", "error|Cập nhật không thành công.");
+                }
             } else {
-                req.getSession().setAttribute("session_mess", "error|Thêm mới không thành công.");
+                String extra_bill_id = req.getParameter("extra_bill_id");
+                if (new ExtraBillDao().update(extra_bill_id, electricity, electricity_price, water, water_price, status, electricity_end, water_end)) {
+                    req.getSession().setAttribute("session_mess", "success|Thêm mới thành công.");
+                } else {
+                    req.getSession().setAttribute("session_mess", "error|Thêm mới không thành công.");
+                }
             }
         }
         if (req.getParameter("year") != null && req.getParameter("semester") != null){

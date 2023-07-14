@@ -21,6 +21,7 @@
             <th>Bill id</th>
             <th>Tên phòng</th>
             <th>Lý do</th>
+            <th>Lý do Admin</th>
             <th>Kì</th>
             <th>Trạng thái</th>
             <th>Tạo lúc</th>
@@ -33,6 +34,7 @@
                 <td>${item.getBill_id()} <a href="${pageContext.request.contextPath}/user/bills?bill_id=${item.getBill_id()}">Xem chi tiết</a></td>
                 <td>${item.getRoom_name()}</td>
                 <td>${item.getReason()}</td>
+                <td>${item.getAdmin_reason()}</td>
                 <td>${item.getSemester()}</td>
                 <td>${item.getStatus().getValue() == 1 ? "<p class='text-success'>đồng ý</p>" :  (item.getStatus().getValue() == 0 ? "<p class='text-info'>chưa xác nhận</p>" : "<p class='text-danger'>không đồng ý</p>")}</td>
                 <td>${item.getCreated_at()}</td>

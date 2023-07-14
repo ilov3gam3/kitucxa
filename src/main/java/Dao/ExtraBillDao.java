@@ -12,9 +12,9 @@ public class ExtraBillDao {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
-    public boolean create(String room_id, String start, String end, String electricity, String electricity_price, String water, String water_price, boolean status){
-        String sql = "insert into extra_bills(electricity, electricity_price, water, water_price, status, room_id, start, [end])\n" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    public boolean create(String room_id, String start, String end, String electricity, String electricity_price, String water, String water_price, boolean status, String electricity_end, String water_end){
+        String sql = "insert into extra_bills(electricity, electricity_price, water, water_price, status, room_id, start, [end], electricity_end , water_end )\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         connection = Connect.getConnection();
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -26,6 +26,8 @@ public class ExtraBillDao {
             preparedStatement.setString(6, room_id);
             preparedStatement.setString(7, start);
             preparedStatement.setString(8,end);
+            preparedStatement.setString(9,electricity_end);
+            preparedStatement.setString(10,water_end);
             int row = preparedStatement.executeUpdate();
             return row>0;
         } catch (SQLException e) {
@@ -33,8 +35,8 @@ public class ExtraBillDao {
             return false;
         }
     }
-    public boolean update(String id, String electricity, String electricity_price, String water, String water_price, boolean status){
-        String sql = "update extra_bills set electricity = ?, electricity_price = ?, water = ?, water_price = ?, status = ? where id = ?";
+    public boolean update(String id, String electricity, String electricity_price, String water, String water_price, boolean status, String electricity_end, String water_end){
+        String sql = "update extra_bills set electricity = ?, electricity_price = ?, water = ?, water_price = ?, status = ?, electricity_end = ?, water_end = ? where id = ?";
         connection = Connect.getConnection();
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -43,13 +45,14 @@ public class ExtraBillDao {
             preparedStatement.setString(3, water);
             preparedStatement.setString(4, water_price);
             preparedStatement.setBoolean(5, status);
-            preparedStatement.setString(6, id);
+            preparedStatement.setString(6, electricity_end);
+            preparedStatement.setString(7, water_end);
+            preparedStatement.setString(8, id);
             int row = preparedStatement.executeUpdate();
             return row > 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public ArrayList<ExtraBill> getExtraWithUsername(int extra_bill_id){
@@ -80,7 +83,9 @@ public class ExtraBillDao {
                         resultSet.getString("room_name"),
                         resultSet.getInt("bill_id"),
                         resultSet.getString("username"),
-                        resultSet.getString("user_email")
+                        resultSet.getString("user_email"),
+                        resultSet.getInt("electricity_end"),
+                        resultSet.getInt("water_end")
                 );
                 arrayList.add(extraBill);
             }

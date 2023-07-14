@@ -15,7 +15,10 @@
           ${success}
       </div>
     </c:if>
-    <form action="" method="post">
+    <div id="hiddenAlert" class="alert alert-info d-none" role="alert">
+      Bạn chưa chọn toà nhà và tầng.
+    </div>
+    <form onsubmit="checkNull(event)" action="" method="post">
       <input type="hidden" name="method" value="add">
       <div class="row">
         <div class="col-md-6">
@@ -119,12 +122,17 @@
 </div>
 <%@ include file="../../include/foot.jsp" %>
 <script>
-  let table = new DataTable('#mytable');
+  function checkNull(event) {
+    if ($("#buildingNames").val() === ""){
+      event.preventDefault();
+      $("#hiddenAlert").removeClass("d-none");
+    }
+  }
+
+let table = new DataTable('#mytable');
   let buildings = ${buildings_json};
   let floors = ${floors_json};
   window.onload = function () {
-    console.log(buildings)
-    console.log(floors)
     var namesSelect = document.getElementById("names");
     for (var i = 0; i < buildings.length; i++) {
       var option = document.createElement("option");
