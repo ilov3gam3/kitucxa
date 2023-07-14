@@ -17,7 +17,6 @@
     <link rel="shortcut icon" href="https://lmsdn.fpt.edu.vn/theme/image.php/boost/theme/1657934026/favicon"/>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet"/>
     <link href="${pageContext.request.contextPath}/assets/css/styles.css" rel="stylesheet"/>
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -92,7 +91,8 @@
     </style>
 </head>
     <% User user = (User) session.getAttribute("user"); %>
-<body class="sb-nav-fixed" <%= request.getRequestURI().endsWith("chat.jsp") ? "style=\"overflow: hidden \"" : "2"  %> >
+    <% String uri = request.getRequestURI(); %>
+<body class="sb-nav-fixed" <%= uri.endsWith("chat.jsp") ? "style=\"overflow: hidden \"" : "2"  %> >
 <nav class="sb-topnav navbar navbar-expand navbar-light">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="${pageContext.request.contextPath}">
@@ -136,7 +136,7 @@
             <% } %>
         </button>
         <% if (user.isAdmin()) { %>
-        <ul class="dropdown-menu" style="width: 500px" aria-labelledby="dropdownMenuButton1">
+        <ul class="dropdown-menu" style="width: 500px; padding: 0" aria-labelledby="dropdownMenuButton1">
             <div class="card">
                 <% if (current.size() == 0) { %>
                 <li><a class="dropdown-item"><p class="text-center text-warning font-weight-bold">Hiện tại không có
@@ -172,7 +172,7 @@
                 </a></li>
                 <%}%>
             </div>
-            <div class="card">
+            <div class="card" >
                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/manage-notification"><p
                         class="text-center text-warning font-weight-bold">Xem tất cả thông báo.</p></a></li>
             </div>
@@ -255,77 +255,77 @@
     <div id="layoutSidenav_nav">
         <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
-                <div class="nav">
+                <div class="nav ">
                     <% if (user != null) {%>
                         <% if (user.isAdmin()) {%>
                             <div class="sb-sidenav-menu-heading">Admin</div>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-buildings">
+                            <a class="nav-link <%= uri.endsWith("manage-buildings.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/admin/manage-buildings">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-building"></i></div>
                                 Quản lý toà nhà
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-floors">
+                            <a class="nav-link <%= uri.endsWith("manage-floors.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/admin/manage-floors">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-stairs"></i></div>
                                 Quản lý tầng
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-rooms">
+                            <a class="nav-link <%= uri.endsWith("manage-rooms.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/admin/manage-rooms">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-door-closed"></i></div>
                                 Quản lý phòng
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-bills">
+                            <a class="nav-link <%= uri.endsWith("/admin/bills.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/admin/manage-bills">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-money-bill"></i></div>
                                 Quản lý hoá đơn
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-users">
+                            <a class="nav-link <%= uri.endsWith("manage-users.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/admin/manage-users">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                                 Quản lý người dùng
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-notification">
+                            <a class="nav-link <%= uri.endsWith("manage-notification.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/admin/manage-notification">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-bell"></i></div>
                                 Quản lý thông báo
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-cancels">
+                            <a class="nav-link <%= uri.endsWith("manage-cancels.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/admin/manage-cancels">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-ban"></i></div>
                                 Quản lý huỷ phòng
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-change-rooms">
+                            <a class="nav-link <%= uri.endsWith("manage-changes.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/admin/manage-change-rooms">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-arrow-right"></i></div>
                                 Quản lý chuyển phòng.
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-extra-bills">
+                            <a class="nav-link <%= uri.endsWith("extra-bills.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/admin/manage-extra-bills">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-bolt"></i></div>
                                 Tiền điện, nước
                             </a>
                         <%} %>
-                            <a class="nav-link bg-secondary" href="${pageContext.request.contextPath}/user/chat">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-door-open"></i></div>
+                            <a class="nav-link <%= uri.endsWith("chat.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/user/chat">
+                                <div class="sb-nav-link-icon"><i class="fa-regular fa-message"></i></div>
                                 Chat
                             </a>
                             <div class="sb-sidenav-menu-heading">User</div>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/user/book-rooms">
+                            <a class="nav-link <%= uri.endsWith("book-room.jsp") || uri.endsWith("book-room-detail.jsp") || uri.endsWith("change-room.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/user/book-rooms">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-door-open"></i></div>
                                 Đặt phòng
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/user/bills">
+                            <a class="nav-link <%= uri.endsWith("/user/bills.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/user/bills">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-money-bill"></i></div>
                                 Hoá đơn của bạn
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/user/view-cancels">
+                            <a class="nav-link <%= uri.endsWith("cancels.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/user/view-cancels">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-ban"></i></div>
                                 Yêu cầu huỷ phòng
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/user/view-changes">
+                            <a class="nav-link <%= uri.endsWith("view-changes.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/user/view-changes">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-arrow-right"></i></div>
                                 yêu cầu chuyển phòng
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/payment">
+                            <a class="nav-link <%= uri.endsWith("payment.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/payment">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-money-bill"></i></div>
                                 Thanh toán
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/rules">
+                            <a class="nav-link <%= uri.endsWith("rules.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/rules">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-scale-balanced"></i></div>
                                 Quy định
                             </a>
-                            <a class="nav-link" href="${pageContext.request.contextPath}/user/admins">
+                            <a class="nav-link <%= uri.endsWith("view-admins.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/user/admins">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                                 Danh sách quản trị viên
                             </a>

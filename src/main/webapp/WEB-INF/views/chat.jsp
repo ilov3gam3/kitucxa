@@ -301,7 +301,7 @@
         <p :key="key"></p>
         <div class="col-lg-12">
             <div class="card chat-app">
-                <div id="plist" class="people-list">
+                <div id="plist" class="people-list" style="padding: 10px">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" style="width: 100%; height: 100%"><i
@@ -343,9 +343,10 @@
                             </template>
 
                         </ul>
-                        <p v-show="showing_preview">Preview : </p>
-                        <img v-bind:src="preview_img_src" alt="" style="max-width: 100%; max-height: 300px; object-fit: cover">
+
                     </div>
+                    <p v-show="showing_preview" style="margin: 10px;">Preview : </p>
+                    <img v-bind:src="preview_img_src" alt="" style="max-width: 100%; max-height: 300px; object-fit: cover">
                 </div>
                 <div class="chat">
                     <div class="chat-header clearfix">
@@ -389,6 +390,8 @@
                                     </div>
                                 </li>
                             </template>
+                        </ul>
+                        <ul ref="container" class="m-b-0" v-if="current_chat_index == -1">
                         </ul>
                     </div>
                     <div class="chat-message clearfix">
@@ -442,21 +445,10 @@
             scroll_me : null,
         },
         async created() {
+            console.log(this.$refs.container)
             const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
             this.vh = (vh * 0.01);
             await this.getAllUsers();
-            /*this.socket.onmessage = function(event) {
-                const message = JSON.parse(event.data);
-                console.log(message)
-                console.log(this.login_user)
-                var index = 0;
-                if (message.sender_id === this.login_user.id){ // find with receiver_id
-                    index = this.data.findIndex(item => item.id === message.receiver_id)
-                } else {
-                    index = this.data.findIndex(item => item.id === message.sender_id)
-                }
-                console.log("this is the message with " + this.data[index].name)
-            };*/
             this.socket.onmessage = (event) => {
                 const message = JSON.parse(event.data);
                 let index = 0;
@@ -470,11 +462,10 @@
                     axios.get("${pageContext.request.contextPath}/user/chat/get-mess-with?user_id_chat_with=" + user_id_chat_with)
                         .then((res)=>{
                             this.data[index].mess = res.data
-                            this.data[index].mess.push(message)
                             this.data[index].last_chat_content =message.content
                             this.data[index].last_chat_is_img =message.is_image
                             this.data[index].last_chat_sender =message.sender_id
-                            this.data[index].last_chat_time =<message className="created_at"></message>
+                            this.data[index].last_chat_time =message.created_at
                             this.key++;
                             this.$nextTick(()=>{
                                 setTimeout(() => {
