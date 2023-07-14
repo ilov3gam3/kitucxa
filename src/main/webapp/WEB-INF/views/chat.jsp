@@ -124,7 +124,9 @@
 
     .chat .chat-history .message-data img {
         border-radius: 50px;
-        width: 50px
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
     }
 
     .chat .chat-history .message-data-time {
@@ -296,6 +298,7 @@
 </style>
 <div class="container-fluid" id="app">
     <div class="row clearfix">
+        <p :key="key"></p>
         <div class="col-lg-12">
             <div class="card chat-app">
                 <div id="plist" class="people-list">
@@ -309,15 +312,15 @@
                     <div class="col-md-12">
                         <ul class="list-unstyled chat-list mt-2 mb-0"
                             style="overflow-y: scroll; height:calc(100vh - 450px)">
-                            <template v-for="(value, key) in admin_list">
+                            <template v-for="(value, key) in data" v-if="value.admin === true">
                                 <li @click="change_chatting_with(value.id)" v-bind:class="{'clearfix active' : (receiver_id == value.id), 'clearfix' : (receiver_id != value.id)}" class="clearfix">
                                     <img v-bind:src="host + '/' + value.avatar" alt="avatar" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover">
                                     <div class="about">
                                         <div class="name">Admin : {{value.name}}</div>
-                                        <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img == false" >bạn : {{ value.last_chat_content }}</div>
-                                        <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img == false" >{{value.name}} : {{ value.last_chat_content }}</div>
-                                        <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img != false" >bạn : hình ảnh</div>
-                                        <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img != false" >{{value.name}} : hình ảnh</div>
+                                        <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img == false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">bạn : {{ value.last_chat_content }}</div>
+                                        <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img == false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{value.name}} : {{ value.last_chat_content }}</div>
+                                        <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img != false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">bạn : hình ảnh</div>
+                                        <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img != false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{value.name}} : hình ảnh</div>
                                         <div class="status"><i class="fa fa-circle offline"></i> left 7 mins ago</div>
                                     </div>
                                 </li>
@@ -325,15 +328,15 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <template v-for="(value, key) in normal_user_list">
+                            <template v-for="(value, key) in data" v-if="value.admin !== true">
                                 <li @click="change_chatting_with(value.id)" v-bind:class="{'clearfix active' : (receiver_id == value.id), 'clearfix' : (receiver_id != value.id)}" class="clearfix">
                                     <img v-bind:src="host + '/' + value.avatar" alt="avatar" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover">
                                     <div class="about">
                                         <div class="name">User : {{value.name}}</div>
-                                        <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img == false" >bạn : {{ value.last_chat_content }}</div>
-                                        <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img == false" >{{value.name}} : {{ value.last_chat_content }}</div>
-                                        <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img != false" >bạn : hình ảnh</div>
-                                        <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img != false" >{{value.name}} : hình ảnh</div>`
+                                        <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img == false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">bạn : {{ value.last_chat_content }}</div>
+                                        <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img == false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{value.name}} : {{ value.last_chat_content }}</div>
+                                        <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img != false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">bạn : hình ảnh</div>
+                                        <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img != false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{value.name}} : hình ảnh</div>
                                         <div class="status"><i class="fa fa-circle offline"></i> left 7 mins ago</div>
                                     </div>
                                 </li>
@@ -351,45 +354,45 @@
                                     <img v-if="current_chat_index == -1" src="${pageContext.request.contextPath}/uploads/default-avatar.webp" alt="avatar">
                                     <img v-if="current_chat_index != -1" v-bind:src="host + '/' + user_list[current_chat_index].avatar" alt="avatar">
                                 <div class="chat-about">
-                                    <h6 class="m-b-0">{{current_chat_index != -1 ? user_list[current_chat_index].name : 'Chọn 1 người để chat'}}</h6>
+                                    <h6 class="m-b-0">{{current_chat_index != -1 ? data[current_chat_index].name : 'Chọn 1 người để chat'}}</h6>
                                     <small>Last seen: 2 hours ago</small>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="chat-history" style="overflow-y: scroll; height:calc(100vh - 260px)">
-                        <ul class="m-b-0">
-                            <li class="clearfix">
-                                <div class="message-data text-end">
-                                    <span class="message-data-time">10:10 AM, Today</span>
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                                </div>
-                                <div class="message other-message float-right"> Hi Aiden, how are you? How is the
-                                    project coming along?
-                                </div>
-                            </li>
-                            <li class="clearfix">
-                                <div class="message-data">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                                    <span class="message-data-time">10:10 AM, Today</span>
-                                </div>
-                                <div class="message my-message"> Hi Aiden, how are you? How is the
-                                    project coming along?
-                                </div>
-                            </li>
+                    <div class="chat-history" ref="scroll_me" style="overflow-y: scroll; height:calc(100vh - 260px)">
+                        <ul ref="container" class="m-b-0" v-if="current_chat_index != -1">
+                            <template v-for="(value, key) in data[current_chat_index].mess">
+                                <li class="clearfix" v-if="value.sender_id == login_user.id">
+                                    <div class="message-data text-end">
+                                        <span class="message-data-time">{{value.created_at}}</span>
+                                        <img :src="host + '/' + login_user.avatar" alt="avatar">
+                                    </div>
+                                    <div class="message other-message float-right" v-if="!value.is_image">
+                                        {{value.content}}
+                                    </div>
+                                    <div class="message other-message float-right" v-if="value.is_image">
+                                        <img :src="host + '/' + value.content " alt="" style="max-width: 300px; max-height: 300px;">
+                                    </div>
+                                </li>
+
+                                <li class="clearfix" v-if="value.sender_id != login_user.id">
+                                    <div class="message-data">
+                                        <img :src="host + '/' + data[current_chat_index].avatar" alt="avatar">
+                                        <span class="message-data-time">{{value.created_at}}</span>
+                                    </div>
+                                    <div class="message my-message" v-if="!value.is_image">
+                                        {{value.content}}
+                                    </div>
+                                    <div class="message my-message" v-if="value.is_image">
+                                        <img :src="host + '/' + value.content " alt="" style="max-width: 300px; max-height: 300px;">
+                                    </div>
+                                </li>
+                            </template>
                         </ul>
                     </div>
                     <div class="chat-message clearfix">
                         <div class="input-group mb-0 col-md-12">
-                            <%--<form class="col-md-12" @onsubmit="send_mess($event)">
-                                <div class="input-group">
-                                    <input v-bind="mess" type="text" class="form-control" placeholder="Enter text here..." aria-describedby="mess">
-                                    <button type="submit" class="btn" style="padding: 0;width: 100%; height: 100%">
-                                    <span id="mess" class="input-group-text" style="width: 100%; height: 100%"><i
-                                            class="fa-solid fa-paper-plane"></i></span>
-                                    </button>
-                                </div>
-                            </form>--%>
                                 <form class="col-md-12" @submit="send_mess($event)">
                                 <div class="input-group">
                                     <input v-model="mess" type="text" class="form-control" id="mess" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -415,7 +418,7 @@
 <%@ include file="../include/foot.jsp" %>
 <script src="${pageContext.request.contextPath}/assets/js/http_cdnjs.cloudflare.com_ajax_libs_vue_2.7.10_vue.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/http_cdnjs.cloudflare.com_ajax_libs_axios_1.4.0_axios.js"></script>
-<a href="${pageContext.request.contextPath}/user/chat/upload-file"></a>
+<a href="${pageContext.request.contextPath}/user/chat/get-mess-with"></a>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 <script>
     var app = new Vue({
@@ -434,16 +437,72 @@
             showing_preview  : false,
             vh : 0,
             preview_img_src : '',
-            data : []
+            data : [],
+            key : 0,
+            scroll_me : null,
         },
         async created() {
-            var vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+            const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
             this.vh = (vh * 0.01);
             await this.getAllUsers();
-            this.socket.onmessage = function(event) {
-                var message = event.data;
-                console.log("Received message: " + message);
-            };
+            /*this.socket.onmessage = function(event) {
+                const message = JSON.parse(event.data);
+                console.log(message)
+                console.log(this.login_user)
+                var index = 0;
+                if (message.sender_id === this.login_user.id){ // find with receiver_id
+                    index = this.data.findIndex(item => item.id === message.receiver_id)
+                } else {
+                    index = this.data.findIndex(item => item.id === message.sender_id)
+                }
+                console.log("this is the message with " + this.data[index].name)
+            };*/
+            this.socket.onmessage = (event) => {
+                const message = JSON.parse(event.data);
+                let index = 0;
+                if (message.sender_id == this.login_user.id){ // find with receiver_id
+                    index = this.data.findIndex(item => item.id == message.receiver_id)
+                } else {
+                    index = this.data.findIndex(item => item.id == message.sender_id)
+                }
+                if (this.data[index].loaded === false){
+                    const user_id_chat_with = this.data[index].id;
+                    axios.get("${pageContext.request.contextPath}/user/chat/get-mess-with?user_id_chat_with=" + user_id_chat_with)
+                        .then((res)=>{
+                            this.data[index].mess = res.data
+                            this.data[index].mess.push(message)
+                            this.data[index].last_chat_content =message.content
+                            this.data[index].last_chat_is_img =message.is_image
+                            this.data[index].last_chat_sender =message.sender_id
+                            this.data[index].last_chat_time =<message className="created_at"></message>
+                            this.key++;
+                            this.$nextTick(()=>{
+                                setTimeout(() => {
+                                    const container = this.$refs.container;
+                                    const lastChild = container.lastElementChild;
+                                    lastChild.scrollIntoView({ behavior: 'smooth' });
+                                    this.shouldScroll = false;
+                                }, 100);
+                            })
+                        })
+                } else {
+                    this.data[index].mess.push(message)
+                    this.data[index].last_chat_content =message.content
+                    this.data[index].last_chat_is_img =message.is_image
+                    this.data[index].last_chat_sender =message.sender_id
+                    this.data[index].last_chat_time =message.created_at
+                    this.key++;
+                    this.$nextTick(()=>{
+                        setTimeout(() => {
+                            const container = this.$refs.container;
+                            const lastChild = container.lastElementChild;
+                            lastChild.scrollIntoView({ behavior: 'smooth' });
+                            this.shouldScroll = false;
+                        }, 100);
+                    })
+                }
+
+            }
         },
         methods: {
             onChange(e){
@@ -458,13 +517,9 @@
                 axios.get("${pageContext.request.contextPath}/user/chat/get-all-users")
                     .then((res)=>{
                         this.user_list = res.data
-                        console.log(this.user_list)
-                        for (let i = 0; i < this.user_list.length; i++) {
-                            if (this.user_list[i].admin === true){
-                                this.admin_list.push(this.user_list[i])
-                            } else {
-                                this.normal_user_list.push(this.user_list[i])
-                            }
+                        this.data = res.data;
+                        for (let i = 0; i < this.data.length; i++) {
+                            this.data[i].loaded=false
                         }
                         this.socket.send("subscribe:" + this.login_user.id.toString());
                     })
@@ -472,6 +527,30 @@
             change_chatting_with(id){
                 this.receiver_id = id;
                 this.current_chat_index = this.user_list.findIndex(item => item.id === this.receiver_id)
+                if (this.data[this.current_chat_index].loaded === false){ // chua co mess, query mess
+                    const user_id_chat_with = this.data[this.current_chat_index].id;
+                    axios.get("${pageContext.request.contextPath}/user/chat/get-mess-with?user_id_chat_with=" + user_id_chat_with)
+                        .then((res)=>{
+                            this.data[this.current_chat_index].mess = res.data
+                            this.key++;
+                            this.$nextTick(()=>{
+                                setTimeout(() => {
+                                    const container = this.$refs.container;
+                                    const lastChild = container.lastElementChild;
+                                    lastChild.scrollIntoView({ behavior: 'smooth' });
+                                    this.shouldScroll = false;
+                                }, 100);
+                            })
+                        })
+                }
+                this.$nextTick(()=>{
+                    setTimeout(() => {
+                        const container = this.$refs.container;
+                        const lastChild = container.lastElementChild;
+                        lastChild.scrollIntoView({ behavior: 'smooth' });
+                        this.shouldScroll = false;
+                    }, 100);
+                })
             },
             send_mess(e){
                 e.preventDefault();
@@ -502,12 +581,18 @@
                                 }
                             })
                                 .then((res)=>{
-                                    console.log(res)
+                                    if (res.data === true && res.status === 200){
+                                        this.file = null;
+                                        this.preview_img_src = "";
+                                        this.showing_preview = false;
+                                    } else {
+                                        toastr.error("đã có lỗi xảy ra.")
+                                    }
                                 })
                         }
                     }
                 }
             },
-        }
+        },
     })
 </script>

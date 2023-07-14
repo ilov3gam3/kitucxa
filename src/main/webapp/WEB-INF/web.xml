@@ -288,6 +288,15 @@
         <servlet-name>ServletGetAllUsers</servlet-name>
         <url-pattern>/user/chat/get-all-users</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletGetMessWith</servlet-name>
+        <servlet-class>Controller.Chat.ServletGetMessWith</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletGetMessWith</servlet-name>
+        <url-pattern>/user/chat/get-mess-with</url-pattern>
+    </servlet-mapping>
 <!--        +++++++++++++++++++API++++++++++++++++-->
     <!--    ==================END USER PART-->
     <!--    ==================ADMIN PART-->
