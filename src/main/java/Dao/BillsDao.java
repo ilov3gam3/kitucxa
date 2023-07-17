@@ -12,6 +12,42 @@ public class BillsDao {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
+    public ArrayList<Bill> getReviewsOfRoom(int id){
+        ArrayList<Bill> arrayList = new ArrayList<>();
+        String sql = "select bills.*, users.name as username, users.student_code as student_code\n" +
+                "from bills\n" +
+                "         inner join users on bills.user_id = users.id\n" +
+                "where room_id = ?\n" +
+                "  and stars <> -1\n" +
+                "  and evaluation <> ''\n" +
+                "  and status = 1\n";
+        try {
+            connection = Connect.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Bill bill = new Bill(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("room_id"),
+                        resultSet.getInt("user_id"),
+                        resultSet.getInt("price"),
+                        Status.getByValue(resultSet.getInt("status")),
+                        resultSet.getString("evaluation"),
+                        resultSet.getInt("stars"),
+                        resultSet.getString("start"),
+                        resultSet.getString("end"),
+                        resultSet.getString("created_at"));
+                bill.setStudent_code(resultSet.getString("student_code"));
+                bill.setUsername(resultSet.getString("username"));
+                arrayList.add(bill);
+            }
+            return arrayList;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
     public boolean updateReview(int bill_id, String review, int rate){
         String sql = "update bills set evaluation = ?, stars = ? where id = ?";
         connection = Connect.getConnection();

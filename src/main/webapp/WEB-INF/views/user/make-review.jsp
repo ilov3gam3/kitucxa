@@ -4,10 +4,10 @@
 <div class="row">
   <div class="col-md-6">
     <h2>Đánh giá phòng ${bill.getRoom_name()} trong kì ${bill.getSemester()}</h2>
-    <form action="" method="post">
+    <form onsubmit="handleSubmit(event)" action="" method="post">
       <div class="form-group">
         <label for="review">Nhận xét</label>
-        <textarea class="form-control" name="review" id="review" rows="10" placeholder="Viết nhận xét ở đây"></textarea>
+        <textarea required class="form-control" name="review" id="review" rows="10" placeholder="Viết nhận xét ở đây"></textarea>
       </div>
       <div class="form-group">
         <div class="rate">
@@ -29,3 +29,15 @@
   </div>
 </div>
 <%@ include file="../../include/foot.jsp" %>
+<script>
+  function handleSubmit(event) {
+    const form = event.target;
+    const formData = new FormData(form);
+    if (formData.has("rate")){
+
+    } else {
+      event.preventDefault();
+      toastr.warning("Vui lòng đánh giá sao.")
+    }
+  }
+</script>

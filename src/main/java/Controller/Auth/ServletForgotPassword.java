@@ -23,6 +23,7 @@ public class ServletForgotPassword extends HttpServlet {
         String uuid = UUID.randomUUID().toString();
         if (new UserDao().checkEmailAndStudentCode(email, student_code)){
             if (new UserDao().updateUUIDByEmail(email, uuid)){
+
                 String host = Mail.getHost(request);
                 ExecutorService executorService = Executors.newSingleThreadExecutor();
                 executorService.submit(() -> {
@@ -34,6 +35,8 @@ public class ServletForgotPassword extends HttpServlet {
                     }
                 });
                 executorService.shutdown();
+
+
                 request.setAttribute("success", "Vui lòng kiểm tra email của bạn.");
             } else {
                 request.setAttribute("error", "Đã có lỗi xảy ra.");

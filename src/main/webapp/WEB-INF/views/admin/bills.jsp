@@ -3,22 +3,6 @@
 <%@ include file="../../include/head.jsp"%>
 <div class="row">
     <h1>Tất cả hoá đơn</h1>
-    <c:if test="${not empty error}">
-        <div class="alert alert-danger">
-                ${error}
-        </div>
-    </c:if>
-    <c:if test="${not empty success}">
-        <div class="alert alert-success">
-                ${success}
-        </div>
-    </c:if>
-    <c:if test="${not empty warning}">
-        <div class="alert alert-warning">
-                ${warning}
-        </div>
-    </c:if>
-
     <table ${pageContext.request.getParameter("bill_id") != null ? "hidden" : ""} class="table table-bordered table-striped" id="mytable">
         <thead>
         <tr>
@@ -36,7 +20,9 @@
         <tbody>
         <c:forEach var="item" items="${bills}">
             <tr>
-                <td>${item.getId()}</td>
+                <td>
+                    ${item.getId()}
+                </td>
                 <td>${item.getRoom_name()}</td>
                 <td><a href="${pageContext.request.contextPath}/admin/user-info?student_code=${item.getStudent_code()}">${item.getStudent_code()}</a></td>
                 <td>${item.getPrice()}</td>
@@ -82,18 +68,18 @@
                 </c:if>
                 <c:if test="${item.getStars() != -1}">
                     <td style="width: 12%">
-                        <div class="rate">
-                            <input type="radio" id="star5" name="rate" value="5" ${item.getStars() == 5 ? "checked" : ""}/>
-                            <label for="star5" title="text">5 stars</label>
-                            <input type="radio" id="star4" name="rate" value="4" ${item.getStars() == 4 ? "checked" : ""}/>
-                            <label for="star4" title="text">4 stars</label>
-                            <input type="radio" id="star3" name="rate" value="3" ${item.getStars() == 3 ? "checked" : ""}/>
-                            <label for="star3" title="text">3 stars</label>
-                            <input type="radio" id="star2" name="rate" value="2" ${item.getStars() == 2 ? "checked" : ""}/>
-                            <label for="star2" title="text">2 stars</label>
-                            <input type="radio" id="star1" name="rate" value="1" ${item.getStars() == 1 ? "checked" : ""}/>
-                            <label for="star1" title="text">1 star</label>
-                        </div>
+                            <div class="rate">
+                                <c:forEach var="i" begin="1" end="5">
+                                    <c:if test="${6-i <= item.getStars()}">
+                                        <input disabled type="radio" name="rate" value="${6-i}"/>
+                                        <label title="text" style="color: #ffc700">${6-i} star</label>
+                                    </c:if>
+                                    <c:if test="${6-i > item.getStars()}">
+                                        <input disabled type="radio" name="rate" value="${6-i}"/>
+                                        <label title="text">${6-i} star</label>
+                                    </c:if>
+                                </c:forEach>
+                            </div>
                     </td>
                 </c:if>
                 <td title="${item.getStart()} - ${item.getEnd()}">${item.getSemester()}</td>
@@ -143,8 +129,6 @@
     let bill_id = '${pageContext.request.getParameter("bill_id")}';
     if (bill_id !== ''){
         bill_id = bill_id.replace(/-/g, '|')
-        console.log(bill_id)
-        // table.fnFilter(bill_id, 0);
         table.column(0).search(bill_id, true, false).draw()
         $('#mytable').removeAttr('hidden');
     }

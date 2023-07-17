@@ -12,6 +12,49 @@ public class UserDao {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
+
+    public boolean adminUpdateNoPass(String student_code, String name, String email, String address, String tel, String verify, String admin, String id){
+        try {
+            String sql = "update users set student_code = ?, name = ?, email = ?, address = ?, tel = ?, is_verified = ?, is_admin = ? where id = ?";
+            connection = Connect.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, student_code);
+            preparedStatement.setString(2, name);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, address);
+            preparedStatement.setString(5, tel);
+            preparedStatement.setString(6, verify);
+            preparedStatement.setString(7, admin);
+            preparedStatement.setString(8, id);
+            int row = preparedStatement.executeUpdate();
+            return row>0;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean adminUpdate(String student_code, String name, String email, String address, String tel, String new_password, String verify, String admin, String id){
+        try {
+            String sql = "update users set student_code = ?, name = ?, email = ?, address = ?, tel = ?, password = ?, is_verified = ?, is_admin = ? where id = ?";
+            connection = Connect.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, student_code);
+            preparedStatement.setString(2, name);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, address);
+            preparedStatement.setString(5, tel);
+            preparedStatement.setString(6, new_password);
+            preparedStatement.setString(7, verify);
+            preparedStatement.setString(8, admin);
+            preparedStatement.setString(9, id);
+            int row = preparedStatement.executeUpdate();
+            return row>0;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
     public int checkUserInfoDuplicate(String student_code, String name, String email){
         String sql = "DECLARE @outputCode INT;\n" +
                 "    EXEC CheckDuplicates @stu_code = ?, @mail = ?, @tel = ?, @result_code = @outputCode OUTPUT;\n" +
@@ -168,7 +211,7 @@ public class UserDao {
                     "                          WHERE (\n" +
                     "                                        (sender_id = ? AND receiver_id = users.id)\n" +
                     "                                        OR (sender_id = users.id AND receiver_id = ?)\n" +
-                    "                                    ))";
+                    "                                    )) or chats.id is null";
             connection = Connect.getConnection();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, user_id);

@@ -2,21 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../../include/head.jsp" %>
 <div class="row">
+    <h1>Quản lý toà nhà</h1>
     <div class="col-md-6">
-        <c:if test="${not empty error}">
-            <div class="alert alert-danger">
-                    ${error}
-            </div>
-        </c:if>
-        <c:if test="${not empty success}">
-            <div class="alert alert-success">
-                    ${success}
-            </div>
-        </c:if>
         <form action="" method="post">
             <div class="form-group">
                 <label for="name">Tên toà nhà</label>
-                <input class="form-control" type="text" id="name" name="name" placeholder="Nhập tên toà nhà">
+                <input required class="form-control" type="text" id="name" name="name" placeholder="Nhập tên toà nhà">
             </div>
             <button class="btn text-center mt-2" style="width: 100%; background-color: #0e63ae; color: white;">Thêm mới
             </button>
@@ -28,7 +19,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Action</th>
+                <th scope="col" class="text-center">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -59,4 +50,6 @@
 <%@ include file="../../include/foot.jsp" %>
 <script>
     let table = new DataTable('#mytable');
+
+
 </script>

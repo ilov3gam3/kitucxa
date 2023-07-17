@@ -1,304 +1,10 @@
 <%@page contentType="text/html" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../include/head.jsp" %>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
-<style type="text/css">
-    body {
-        background-color: #f4f7f6;
-        margin-top: 20px;
-    }
-
-    .card {
-        background: #fff;
-        transition: .5s;
-        border: 0;
-        margin-bottom: 30px;
-        border-radius: .55rem;
-        position: relative;
-        width: 100%;
-        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
-    }
-
-    .chat-app .people-list {
-        width: 25%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        padding: 20px;
-        z-index: 7
-    }
-
-    .chat-app .chat {
-        margin-left: 25%;
-        border-left: 1px solid #eaeaea
-    }
-
-    .people-list {
-        -moz-transition: .5s;
-        -o-transition: .5s;
-        -webkit-transition: .5s;
-        transition: .5s
-    }
-
-    .people-list .chat-list li {
-        padding: 10px 15px;
-        list-style: none;
-        border-radius: 3px
-    }
-
-    .people-list .chat-list li:hover {
-        background: #efefef;
-        cursor: pointer
-    }
-
-    .people-list .chat-list li.active {
-        background: #efefef
-    }
-
-    .people-list .chat-list li .name {
-        font-size: 15px
-    }
-
-    .people-list .chat-list img {
-        width: 50px;
-        border-radius: 50%
-    }
-
-    .people-list img {
-        float: left;
-        /*border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        object-fit: cover;*/
-    }
-
-    .people-list .about {
-        float: left;
-        padding-left: 8px
-    }
-
-    .people-list .status {
-        color: #999;
-        font-size: 13px
-    }
-
-    .chat .chat-header {
-        padding: 15px 20px;
-        border-bottom: 2px solid #f4f7f6
-    }
-
-    .chat .chat-header img {
-        float: left;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        object-fit: cover;
-    }
-
-    .chat .chat-header .chat-about {
-        float: left;
-        padding-left: 10px
-    }
-
-    .chat .chat-history {
-        padding: 20px;
-        border-bottom: 2px solid #fff
-    }
-
-    .chat .chat-history ul {
-        padding: 0
-    }
-
-    .chat .chat-history ul li {
-        list-style: none;
-        margin-bottom: 30px
-    }
-
-    .chat .chat-history ul li:last-child {
-        margin-bottom: 0px
-    }
-
-    .chat .chat-history .message-data {
-        margin-bottom: 15px
-    }
-
-    .chat .chat-history .message-data img {
-        border-radius: 50px;
-        width: 50px;
-        height: 50px;
-        object-fit: cover;
-    }
-
-    .chat .chat-history .message-data-time {
-        color: #434651;
-        padding-left: 6px
-    }
-
-    .chat .chat-history .message {
-        color: #444;
-        padding: 18px 20px;
-        line-height: 26px;
-        font-size: 16px;
-        border-radius: 7px;
-        display: inline-block;
-        position: relative
-    }
-
-    .chat .chat-history .message:after {
-        bottom: 100%;
-        left: 7%;
-        border: solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none;
-        border-bottom-color: #fff;
-        border-width: 10px;
-        margin-left: -10px
-    }
-
-    .chat .chat-history .my-message {
-        background: #efefef
-    }
-
-    .chat .chat-history .my-message:after {
-        bottom: 100%;
-        left: 30px;
-        border: solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none;
-        border-bottom-color: #efefef;
-        border-width: 10px;
-        margin-left: -10px
-    }
-
-    .chat .chat-history .other-message {
-        background: #e8f1f3;
-        text-align: right
-    }
-
-    .chat .chat-history .other-message:after {
-        border-bottom-color: #e8f1f3;
-        left: 93%
-    }
-
-    .chat .chat-message {
-        padding: 20px
-    }
-
-    .online,
-    .offline,
-    .me {
-        margin-right: 2px;
-        font-size: 8px;
-        vertical-align: middle
-    }
-
-    .online {
-        color: #86c541
-    }
-
-    .offline {
-        color: #e47297
-    }
-
-    .me {
-        color: #1d8ecd
-    }
-
-    .float-right {
-        float: right
-    }
-
-    .clearfix:after {
-        visibility: hidden;
-        display: block;
-        font-size: 0;
-        content: " ";
-        clear: both;
-        height: 0
-    }
-
-    @media only screen and (max-width: 767px) {
-        .chat-app .people-list {
-            height: 465px;
-            width: 100%;
-            overflow-x: auto;
-            background: #fff;
-            left: -500px;
-            display: none
-        }
-
-        .chat-app .people-list.open {
-            left: 0
-        }
-
-        .chat-app .chat {
-            margin: 0
-        }
-
-        .chat-app .chat .chat-header {
-            border-radius: 0.55rem 0.55rem 0 0
-        }
-
-        .chat-app .chat-history {
-            height: 300px;
-            overflow-x: auto
-        }
-    }
-
-    @media only screen and (min-width: 768px) and (max-width: 992px) {
-        .chat-app .chat-list {
-            height: 650px;
-            overflow-x: auto
-        }
-
-        .chat-app .chat-history {
-            height: 600px;
-            overflow-x: auto
-        }
-    }
-
-    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
-        .chat-app .chat-list {
-            height: 480px;
-            overflow-x: auto
-        }
-
-        .chat-app .chat-history {
-            height: calc(100vh - 350px);
-            overflow-x: auto
-        }
-    }
-
-    .custom-file-input {
-        display: inline-block;
-        padding: 10px 15px;
-        color: #fff;
-        cursor: pointer;
-    }
-
-    .custom-file-input i {
-        margin-right: 5px;
-    }
-
-    #imageInput {
-        display: none;
-    }
-
-    #imagePreview {
-        /*max-width: 100%;*/
-        /*max-height: 100%;*/
-        /*object-fit: cover;*/
-    }
-</style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/chat.css">
 <div class="container-fluid" id="app">
     <div class="row clearfix">
-        <p :key="key"></p>
+        <p :key="key" hidden="hidden"></p>
         <div class="col-lg-12">
             <div class="card chat-app">
                 <div id="plist" class="people-list" style="padding: 10px">
@@ -311,45 +17,32 @@
                     </div>
                     <div class="col-md-12">
                         <ul class="list-unstyled chat-list mt-2 mb-0"
-                            style="overflow-y: scroll; height:calc(100vh - 450px)">
-                            <template v-for="(value, key) in data" v-if="value.admin === true">
+                            :style="{'overflow-y': 'scroll', 'height' : left_height, 'border': '2px solid #E9ECEF'}">
+                            <template v-for="(value, key) in data">
                                 <li @click="change_chatting_with(value.id)" v-bind:class="{'clearfix active' : (receiver_id == value.id), 'clearfix' : (receiver_id != value.id)}" class="clearfix">
                                     <img v-bind:src="host + '/' + value.avatar" alt="avatar" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover">
                                     <div class="about">
-                                        <div class="name">Admin : {{value.name}}</div>
-                                        <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img == false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">bạn : {{ value.last_chat_content }}</div>
-                                        <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img == false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{value.name}} : {{ value.last_chat_content }}</div>
-                                        <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img != false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">bạn : hình ảnh</div>
-                                        <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img != false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{value.name}} : hình ảnh</div>
+                                        <div class="name">{{value.admin ? 'admin' : 'user'}} : {{value.name}}</div>
+                                        <div v-if="value.last_chat_sender == null">Chưa có tin nhắn</div>
+                                        <div v-else>
+                                            <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img == false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">bạn : {{ value.last_chat_content }}</div>
+                                            <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img == false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{value.name}} : {{ value.last_chat_content }}</div>
+                                            <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img != false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">bạn : hình ảnh</div>
+                                            <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img != false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{value.name}} : hình ảnh</div>
+                                        </div>
                                         <div class="status"><i class="fa fa-circle offline"></i> left 7 mins ago</div>
                                     </div>
                                 </li>
                             </template>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <template v-for="(value, key) in data" v-if="value.admin !== true">
-                                <li @click="change_chatting_with(value.id)" v-bind:class="{'clearfix active' : (receiver_id == value.id), 'clearfix' : (receiver_id != value.id)}" class="clearfix">
-                                    <img v-bind:src="host + '/' + value.avatar" alt="avatar" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover">
-                                    <div class="about">
-                                        <div class="name">User : {{value.name}}</div>
-                                        <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img == false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">bạn : {{ value.last_chat_content }}</div>
-                                        <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img == false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{value.name}} : {{ value.last_chat_content }}</div>
-                                        <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img != false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">bạn : hình ảnh</div>
-                                        <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img != false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{value.name}} : hình ảnh</div>
-                                        <div class="status"><i class="fa fa-circle offline"></i> left 7 mins ago</div>
-                                    </div>
-                                </li>
-                            </template>
-
                         </ul>
-
+                        <div v-if="showing_preview" style="max-width: 100%; height: 30vh; margin-top: 5px;">
+                            <img v-bind:src="preview_img_src" alt="" style="height: 100%; width: 100%;  object-fit: cover; border-radius: 10%;">
+                        </div>
                     </div>
-                    <p v-show="showing_preview" style="margin: 10px;">Preview : </p>
-                    <img v-bind:src="preview_img_src" alt="" style="max-width: 100%; max-height: 300px; object-fit: cover">
+
                 </div>
                 <div class="chat">
-                    <div class="chat-header clearfix">
+                    <div class="chat-header clearfix" ref="chat_header">
                         <div class="row">
                             <div class="col-lg-6">
                                     <img v-if="current_chat_index == -1" src="${pageContext.request.contextPath}/uploads/default-avatar.webp" alt="avatar">
@@ -361,7 +54,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="chat-history" ref="scroll_me" style="overflow-y: scroll; height:calc(100vh - 260px)">
+                    <div class="chat-history" ref="scroll_me" style="overflow-y: scroll; height:calc(70vh)">
                         <ul ref="container" class="m-b-0" v-if="current_chat_index != -1">
                             <template v-for="(value, key) in data[current_chat_index].mess">
                                 <li class="clearfix" v-if="value.sender_id == login_user.id">
@@ -377,7 +70,7 @@
                                     </div>
                                 </li>
 
-                                <li class="clearfix" v-if="value.sender_id != login_user.id">
+                                <li class="clearfix" v-else>
                                     <div class="message-data">
                                         <img :src="host + '/' + data[current_chat_index].avatar" alt="avatar">
                                         <span class="message-data-time">{{value.created_at}}</span>
@@ -391,8 +84,7 @@
                                 </li>
                             </template>
                         </ul>
-                        <ul ref="container" class="m-b-0" v-if="current_chat_index == -1">
-                        </ul>
+
                     </div>
                     <div class="chat-message clearfix">
                         <div class="input-group mb-0 col-md-12">
@@ -422,7 +114,6 @@
 <script src="${pageContext.request.contextPath}/assets/js/http_cdnjs.cloudflare.com_ajax_libs_vue_2.7.10_vue.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/http_cdnjs.cloudflare.com_ajax_libs_axios_1.4.0_axios.js"></script>
 <a href="${pageContext.request.contextPath}/user/chat/get-mess-with"></a>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 <script>
     var app = new Vue({
         el: "#app",
@@ -443,12 +134,12 @@
             data : [],
             key : 0,
             scroll_me : null,
+            left_height : "80vh"
         },
-        async created() {
-            console.log(this.$refs.container)
+        created() {
             const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
             this.vh = (vh * 0.01);
-            await this.getAllUsers();
+            this.getAllUsers();
             this.socket.onmessage = (event) => {
                 const message = JSON.parse(event.data);
                 let index = 0;
@@ -500,6 +191,7 @@
                 this.file = e.target.files[0];
                 this.showing_preview = true;
                 this.preview_img_src = URL.createObjectURL(this.file);
+                this.left_height = "50vh";
             },
             chooseFile(){
                 this.$refs.myRef.click()
@@ -512,6 +204,22 @@
                         for (let i = 0; i < this.data.length; i++) {
                             this.data[i].loaded=false
                         }
+                        /*if (this.login_user.admin === true){
+                            console.log("la admin")
+                            this.data = res.data;
+                            for (let i = 0; i < this.data.length; i++) {
+                                this.data[i].loaded=false
+                            }
+                        } else {
+                            console.log("0 la admin")
+                            for (let i = 0; i < res.data.length; i++) {
+                                console.log(res.data[i])
+                                if (res.data[i].admin === true){
+                                    console.log(res.data[i].name  +" la " + res.data[i].admin)
+                                    this.data.push(res.data[i])
+                                }
+                            }
+                        }*/
                         this.socket.send("subscribe:" + this.login_user.id.toString());
                     })
             },
@@ -576,6 +284,7 @@
                                         this.file = null;
                                         this.preview_img_src = "";
                                         this.showing_preview = false;
+                                        this.left_height = "80vh";
                                     } else {
                                         toastr.error("đã có lỗi xảy ra.")
                                     }
@@ -585,5 +294,8 @@
                 }
             },
         },
+        mounted(){
+
+        }
     })
 </script>

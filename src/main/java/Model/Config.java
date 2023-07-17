@@ -8,8 +8,8 @@ public class Config {
             Map.entry("db_name", "kitucxa"),
             Map.entry("db_username", "minh"),
             Map.entry("db_password", "Matkhaulagivaytroi1"),
-            Map.entry("email_address", "tranquangminh116@gmail.com"),
-            Map.entry("email_address_password", "iahskjpdwuvcyzym"),
+            Map.entry("email_address", "sinhlumia12@gmail.com"),
+            Map.entry("email_address_password", "svjegutxtrejjyzz"),
             Map.entry("max_electricity", "70"),
             Map.entry("max_water", "20")
     );

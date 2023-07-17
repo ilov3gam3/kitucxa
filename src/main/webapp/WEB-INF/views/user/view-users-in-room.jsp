@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../../include/head.jsp"%>
 <div class="row">
+  <h1>Xem các sinh viên trong phòng</h1>
   <table class="table table-bordered table-striped" id="mytable">
     <thead>
     <tr>

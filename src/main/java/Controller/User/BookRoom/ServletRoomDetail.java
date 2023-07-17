@@ -3,6 +3,7 @@ package Controller.User.BookRoom;
 import Controller.Mail;
 import Dao.BillsDao;
 import Dao.RoomsDao;
+import Model.Bill;
 import Model.Room;
 import Model.Semester;
 import Model.User;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -39,9 +41,11 @@ public class ServletRoomDetail extends HttpServlet {
         if (userViewDate.compareTo(date) > 0) {
             String[] semesters = new String[]{year + "-" + Semester.valueOf(semester + "_start").getDetail(), year + "-" + Semester.valueOf(semester + "_end").getDetail()};
             Room room = new RoomsDao().get1RoomWithNumbers(room_id, semesters);
+            ArrayList<Bill> bills = new BillsDao().getReviewsOfRoom(room_id);
             request.setAttribute("room", room);
             request.setAttribute("year", year);
             request.setAttribute("semester", semester);
+            request.setAttribute("bills", bills);
         } else {
             Room room = new Room();
             room.id = room_id;

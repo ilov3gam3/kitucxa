@@ -95,8 +95,8 @@ public class CancelDao {
             try {
                 preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setInt(1, status);
-                preparedStatement.setInt(2, cancel_id);
-                preparedStatement.setInt(3, bill_id);
+                preparedStatement.setString(2, admin_reason);
+                preparedStatement.setInt(3, cancel_id);
                 int row = preparedStatement.executeUpdate();
                 return row > 0;
             } catch (SQLException e) {

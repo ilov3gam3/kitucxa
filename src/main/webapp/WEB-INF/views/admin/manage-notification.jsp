@@ -5,16 +5,6 @@
 <div class="row">
   <div class="col-md-3">
     <h1>Quản lý thông báo</h1>
-    <c:if test="${not empty error}">
-      <div class="alert alert-danger">
-          ${error}
-      </div>
-    </c:if>
-    <c:if test="${not empty success}">
-      <div class="alert alert-success">
-          ${success}
-      </div>
-    </c:if>
     <form action="" method="post">
       <div class="form-group">
         <label for="name">Tên của thông báo</label>

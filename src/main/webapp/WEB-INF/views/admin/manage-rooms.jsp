@@ -5,16 +5,6 @@
 <div class="row" id="app">
   <div class="col-md-4">
     <h1>Thêm phòng</h1>
-    <c:if test="${not empty error}">
-      <div class="alert alert-danger">
-          ${error}
-      </div>
-    </c:if>
-    <c:if test="${not empty success}">
-      <div class="alert alert-success">
-          ${success}
-      </div>
-    </c:if>
     <div id="hiddenAlert" class="alert alert-info d-none" role="alert">
       Bạn chưa chọn toà nhà và tầng.
     </div>
@@ -85,20 +75,46 @@
       <thead>
       <tr>
         <th scope="col">#</th>
-        <th>tên phòng</th>
-        <th>khả dụng</th>
-        <th>giá</th>
-        <th>số lượng</th>
-        <th class="text-center">action</th>
+        <th>Tên phòng</th>
+        <th>Khả dụng</th>
+        <th>Giá</th>
+        <th>Đánh giá</th>
+        <th>Số lượng</th>
+        <th class="text-center">Thao tác</th>
       </tr>
       </thead>
       <tbody>
       <c:forEach var="item" items="${rooms}">
         <tr ${!item.isIs_available() ? "class='table-danger'" : ""}>
           <td>${item.getId()}</td>
-          <td>${item.getName()} <a href="${pageContext.request.contextPath}/admin/view-members-in-rooms?room_id=${item.getId()}&year=${year}&semester=${semester}">Xem thành viên</a></td>
+          <td>
+            <a href="${pageContext.request.contextPath}/admin/view-bills-in-extra?room_id=${item.getId()}&start=<%= Semester.getDate((int)request.getAttribute("year"), Semester.valueOf((request.getAttribute("semester")) + "_start"))%>&end=<%= Semester.getDate((int)request.getAttribute("year"), Semester.valueOf((request.getAttribute("semester")) + "_end"))%>">
+                ${item.getName()}
+            </a>
+            <a style="color: red" href="${pageContext.request.contextPath}/admin/view-members-in-rooms?room_id=${item.getId()}&year=${year}&semester=${semester}">Xem thành viên</a></td>
           <td>${item.isIs_available() ? "có" : "không"}</td>
           <td>${item.getPrice()}</td>
+            <c:if test="${item.getStars() == 0}">
+          <td style="width: 20%">Chưa có đánh giá</td>
+          </c:if>
+          <c:if test="${item.getStars() != 0}">
+            <td style="width: 20%">
+              <a href="${pageContext.request.contextPath}/admin/view-all-review-of-room?room_id=${item.getId()}&room_name=${item.getName()}">
+                <div class="rate">
+                  <c:forEach var="i" begin="1" end="5">
+                    <c:if test="${6-i <= item.getStars()}">
+                      <input disabled type="radio" name="rate" value="${6-i}"/>
+                      <label title="text" style="color: #ffc700">${6-i} star</label>
+                    </c:if>
+                    <c:if test="${6-i > item.getStars()}">
+                      <input disabled type="radio" name="rate" value="${6-i}"/>
+                      <label title="text">${6-i} star</label>
+                    </c:if>
+                  </c:forEach>
+                </div>
+              </a>
+            </td>
+          </c:if>
           <td>${item.getNumber()}/4</td>
           <td>
             <div class="row">

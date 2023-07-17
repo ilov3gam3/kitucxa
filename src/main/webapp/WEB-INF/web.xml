@@ -3,16 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
-    <servlet>
-        <servlet-name>myServlet</servlet-name>
-        <servlet-class>MyServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>myServlet</servlet-name>
-        <url-pattern>/my-servlet</url-pattern>
-    </servlet-mapping>
              <!--    ==================FILTER PART-->
     <filter>
         <filter-name>LoginFilter</filter-name>
@@ -125,6 +115,15 @@
     <servlet-mapping>
         <servlet-name>ServletRules</servlet-name>
         <url-pattern>/rules</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletConfirmChangePassword</servlet-name>
+        <servlet-class>Controller.Auth.ServletConfirmChangePassword</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletConfirmChangePassword</servlet-name>
+        <url-pattern>/confirm-change-password</url-pattern>
     </servlet-mapping>
     <!--    ==================USER PART-->
     <servlet>
@@ -307,6 +306,15 @@
     <servlet-mapping>
         <servlet-name>ServletBuilding</servlet-name>
         <url-pattern>/admin/manage-buildings</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletViewAllRoomReview</servlet-name>
+        <servlet-class>Controller.Admin.Room.ServletViewAllRoomReview</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletViewAllRoomReview</servlet-name>
+        <url-pattern>/admin/view-all-review-of-room</url-pattern>
     </servlet-mapping>
 
     <servlet>

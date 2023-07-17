@@ -32,6 +32,7 @@ public class ServletCancel extends HttpServlet {
         int cancel_id = Integer.parseInt(req.getParameter("cancel_id"));
         int bill_id = Integer.parseInt(req.getParameter("bill_id"));
         int status = Integer.parseInt(req.getParameter("status"));
+        System.out.println(status);
         String admin_reason = req.getParameter("admin_reason");
         CancelDao cancelDao = new CancelDao();
         if (cancelDao.updateStatus(cancel_id, status, bill_id, admin_reason)){

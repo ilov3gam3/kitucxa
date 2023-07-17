@@ -46,7 +46,7 @@ public class ServletExtraBill extends HttpServlet {
         String[] currents = Semester.getCurrentSemester();
         String current = Semester.getSemester(currents[0], currents[1]);
         req.setAttribute("currents", currents);
-        req.setAttribute("current", current);
+        req.setAttribute("current1", current);
         req.setAttribute("max_electricity", Integer.parseInt(Config.map.get("max_electricity")));
         req.setAttribute("max_water", Integer.parseInt(Config.map.get("max_water")));
         req.getRequestDispatcher("/WEB-INF/views/admin/extra-bills.jsp").forward(req, resp);
@@ -72,16 +72,16 @@ public class ServletExtraBill extends HttpServlet {
                 String start = req.getParameter("start");
                 String end = req.getParameter("end");
                 if (new ExtraBillDao().create(room_id, start, end, electricity, electricity_price, water, water_price, status, electricity_end, water_end)){
-                    req.getSession().setAttribute("session_mess", "success|Cập nhật thành công.");
+                    req.getSession().setAttribute("session_mess", "success|Thêm hoá đơn thành công.");
                 }else {
-                    req.getSession().setAttribute("session_mess", "error|Cập nhật không thành công.");
+                    req.getSession().setAttribute("session_mess", "error|Thêm hoá đơn không thành công.");
                 }
             } else {
                 String extra_bill_id = req.getParameter("extra_bill_id");
                 if (new ExtraBillDao().update(extra_bill_id, electricity, electricity_price, water, water_price, status, electricity_end, water_end)) {
-                    req.getSession().setAttribute("session_mess", "success|Thêm mới thành công.");
+                    req.getSession().setAttribute("session_mess", "success|Cập nhật thành công.");
                 } else {
-                    req.getSession().setAttribute("session_mess", "error|Thêm mới không thành công.");
+                    req.getSession().setAttribute("session_mess", "error|Cập nhật không thành công.");
                 }
             }
         }

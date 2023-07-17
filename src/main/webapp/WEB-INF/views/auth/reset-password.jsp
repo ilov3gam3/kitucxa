@@ -12,16 +12,6 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-6">
-            <c:if test="${not empty error}">
-              <div class="alert alert-danger">
-                  ${error}
-              </div>
-            </c:if>
-            <c:if test="${not empty success}">
-              <div class="alert alert-success">
-                  ${success}
-              </div>
-            </c:if>
             <form action="" method="post">
               <div class="form-group">
                 <label for="password">Nhập mật khẩu mới</label>

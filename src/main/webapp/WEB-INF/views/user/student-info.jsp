@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../../include/head.jsp"%>
 <div class="row">
-  <h1>Student view user info</h1>
+  <h1>Thông tin sinh viên</h1>
   <form action="">
     <form action="" method="post">
       <div class="form-group m-2">

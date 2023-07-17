@@ -18,7 +18,11 @@ public class Bill {
     public String cancel_reason;
     public Status cancel_status;
     public String cancel_created_at;
+    public String username;
 
+    public String getUsername() {
+        return username;
+    }
 
     public String getStudent_code() {
         return student_code;
@@ -49,6 +53,15 @@ public class Bill {
     public int change_room_to_id;
     public Status change_status;
     public String change_created_at;
+
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public Bill(int id, int room_id, int user_id, int price, Status status, String evaluation, int stars, String start, String end, String created_at) {
         this.id = id;

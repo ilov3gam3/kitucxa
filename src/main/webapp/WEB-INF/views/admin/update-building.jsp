@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../../include/head.jsp" %>
 <div class="row">
-
+    <h1>Cập nhật toà nhà ${building.name}</h1>
     <div class="col-md-6">
         <form action="" method="post">
             <input type="text" hidden="hidden" value="${building.id}">

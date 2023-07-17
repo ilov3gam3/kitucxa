@@ -44,6 +44,7 @@
 
 </style>
 <div class="row">
+    <h1>Đánh giá</h1>
     <div class="col-md-6">
         <form action="" method="post">
             <div class="form-group">

@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title>Dashboard - SB Admin</title>
+    <title>FPT dormitory</title>
     <link rel="shortcut icon" href="https://lmsdn.fpt.edu.vn/theme/image.php/boost/theme/1657934026/favicon"/>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet"/>
     <link href="${pageContext.request.contextPath}/assets/css/styles.css" rel="stylesheet"/>
@@ -23,76 +23,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <style>
-        .bell-icon {
-            position: relative;
-            display: inline-block;
-            margin-right: 10px;
-        }
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/assets/css/custom.css" rel="stylesheet"/>
 
-        .bell-icon .badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            min-width: 16px;
-            padding: 2px 6px;
-            border-radius: 50%;
-            background-color: red;
-            color: white;
-            font-size: 12px;
-            text-align: center;
-        }
-
-        .big-cell {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 0;
-        }
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        .rate {
-            float: left;
-            height: 46px;
-            padding: 0 10px;
-        }
-        .rate:not(:checked) > input {
-            position:absolute;
-            top:-9999px;
-        }
-        .rate:not(:checked) > label {
-            float:right;
-            width:1em;
-            overflow:hidden;
-            white-space:nowrap;
-            cursor:pointer;
-            font-size:30px;
-            color:#ccc;
-        }
-        .rate:not(:checked) > label:before {
-            content: '★ ';
-        }
-        .rate > input:checked ~ label {
-            color: #ffc700;
-        }
-        .rate:not(:checked) > label:hover,
-        .rate:not(:checked) > label:hover ~ label {
-            color: #deb217;
-        }
-        .rate > input:checked + label:hover,
-        .rate > input:checked + label:hover ~ label,
-        .rate > input:checked ~ label:hover,
-        .rate > input:checked ~ label:hover ~ label,
-        .rate > label:hover ~ input:checked ~ label {
-            color: #c59b08;
-        }
-    </style>
 </head>
     <% User user = (User) session.getAttribute("user"); %>
+    <% request.setAttribute("user", user); %>
     <% String uri = request.getRequestURI(); %>
-<body class="sb-nav-fixed" <%= uri.endsWith("chat.jsp") ? "style=\"overflow: hidden \"" : "2"  %> >
+<body class="sb-nav-fixed"  >
 <nav class="sb-topnav navbar navbar-expand navbar-light">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="${pageContext.request.contextPath}">
@@ -283,7 +221,7 @@
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-bell"></i></div>
                                 Quản lý thông báo
                             </a>
-                            <a class="nav-link <%= uri.endsWith("manage-cancels.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/admin/manage-cancels">
+                            <a class="nav-link <%= uri.endsWith("admin/manage-cancels.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/admin/manage-cancels">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-ban"></i></div>
                                 Quản lý huỷ phòng
                             </a>
@@ -309,7 +247,7 @@
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-money-bill"></i></div>
                                 Hoá đơn của bạn
                             </a>
-                            <a class="nav-link <%= uri.endsWith("cancels.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/user/view-cancels">
+                            <a class="nav-link <%= uri.endsWith("user/cancels.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/user/view-cancels">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-ban"></i></div>
                                 Yêu cầu huỷ phòng
                             </a>

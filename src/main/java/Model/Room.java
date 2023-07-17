@@ -10,6 +10,11 @@ public class Room {
     public int number;
     public String start;
     public String end;
+    public int stars;
+
+    public int getStars() {
+        return stars;
+    }
 
     public int getId() {
         return id;
@@ -85,6 +90,16 @@ public class Room {
         this.is_available = is_available;
         this.price = price;
         this.number = number;
+    }
+
+    public Room(int id, String name, int floor_id,boolean is_available, int price, int number, int stars) {
+        this.id = id;
+        this.name = name;
+        this.floor_id = floor_id;
+        this.is_available = is_available;
+        this.price = price;
+        this.number = number;
+        this.stars =stars;
     }
 
     public int getNumber() {

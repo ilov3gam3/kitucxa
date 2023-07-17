@@ -3,14 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../../include/head.jsp"%>
 <div>
-    <h1>Book room here</h1>
-    <c:if test="${not empty warning}">
-        <div class="alert alert-warning">
-                ${warning}
-        </div>
-    </c:if>
+    <h1>Đặt phòng</h1>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <form action="" method="post">
                 <div class="form-group">
                     <label for="year-input">Enter a year:</label>
@@ -27,7 +22,7 @@
                 <button style="width: 100%; background-color: #0e63ae; color: white;" class="btn mt-1">Xem</button>
             </form>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-9">
             <h3>Bạn đang xem phòng của kì ${semester} năm ${year}</h3><br>
             <h3>Từ <%= Semester.getDate((int)request.getAttribute("year"), Semester.valueOf((request.getAttribute("semester")) + "_start"))%> đến <%= Semester.getDate((int)request.getAttribute("year"), Semester.valueOf((request.getAttribute("semester")) + "_end"))%></h3>
             <table class="table table-bordered table-striped" id="mytable" >

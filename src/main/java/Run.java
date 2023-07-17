@@ -59,18 +59,14 @@ public class Run {
         } else {
             System.out.println("cac");;
         }*/
-        ExtraBillDao extraBillDao = new ExtraBillDao();
-        ArrayList<ExtraBill> arrayList = extraBillDao.getExtraWithUsername(Integer.parseInt("4"));
-        String[] addresses = new String[arrayList.size()];
-        String[] contents = new String[arrayList.size()];
-        for (int i = 0; i < arrayList.size(); i++) {
-            addresses[i] = arrayList.get(i).user_email;
-            contents[i] = "<h1 style='display: inline-block; white-space: pre;'>Xin chào " + arrayList.get(i).username + ", sau đây là hoá đơn tiền điện, tiền nước của phòng " + arrayList.get(i).room_name + " trong kì " + Semester.getSemester(arrayList.get(i).start, arrayList.get(i).end) + ". <br>" +
-                    "Tiền điện : ("+arrayList.get(i).electricity+"-"+ Config.map.get("max_electricity") +") * "+arrayList.get(i).electricity_price+" = "+ (arrayList.get(i).electricity - Integer.parseInt(Config.map.get("max_electricity"))) * arrayList.get(i).electricity_price +" <br>" +
-                    "Tiền nước : ("+arrayList.get(i).water+"-"+ Config.map.get("max_water") +") * "+arrayList.get(i).water_price+" = "+ (arrayList.get(i).water - Integer.parseInt(Config.map.get("max_water"))) * arrayList.get(i).water_price +
-                    "</h1>";
-            System.out.println(Arrays.toString(contents));
-        }
 
+        String studentCode = "DE160524";
+        String regex = "^[A-Z]{2}\\d{6}$";
+
+        if (studentCode.matches(regex)) {
+            System.out.println("Valid student code.");
+        } else {
+            System.out.println("Invalid student code.");
+        }
     }
 }

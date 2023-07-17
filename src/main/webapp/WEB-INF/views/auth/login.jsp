@@ -12,11 +12,6 @@
       <div class="card-body">
           <div class="row">
             <div class="col-md-6">
-              <c:if test="${not empty login_fail}">
-                <div class="alert alert-danger" role="alert">
-                    ${login_fail}
-                </div>
-              </c:if>
               <form action="" method="post">
                 <div class="form-group">
                   <label for="student_code_or_email">Mã sv hoặc mail</label>

@@ -3,16 +3,6 @@
 <%@ include file="../../include/head.jsp"%>
 <h3>Đơn chuyển phòng</h3>
 <div class="row">
-    <c:if test="${not empty error}">
-        <div class="alert alert-danger">
-                ${error}
-        </div>
-    </c:if>
-    <c:if test="${not empty success}">
-        <div class="alert alert-success">
-                ${success}
-        </div>
-    </c:if>
     <div class="col-md-4">
         <form action="" method="post">
             <div class="form-group">

@@ -5,17 +5,8 @@
 <%@ include file="../../include/head.jsp" %>
 <div class="row">
     <h3>Danh sách hoá đơn của bạn</h3>
-    <c:if test="${not empty error}">
-        <div class="alert alert-danger">
-                ${error}
-        </div>
-    </c:if>
-    <c:if test="${not empty success}">
-        <div class="alert alert-success">
-                ${success}
-        </div>
-    </c:if>
-    <table ${pageContext.request.getParameter("bill_id") != null ? "hidden" : ""} class="table table-bordered table-striped" id="mytable">
+    <table ${pageContext.request.getParameter("bill_id") != null ? "hidden" : ""}
+            class="table table-bordered table-striped" id="mytable">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -69,42 +60,53 @@
                         </div>
                     </div>
                 </td>
-                <td class="text-center">
-                    <c:if test="${item.getEvaluation() == ''}">
-                        <fmt:parseDate var="start_date_current_semester" value="${current_semester[0]}" pattern="yyyy-MM-dd" />
-                        <fmt:parseDate var="this_bill_end" value="${item.getEnd()}" pattern="yyyy-MM-dd" />
-                        <c:if test="${start_date_current_semester gt this_bill_end}">
+                <td>
+                    <c:if test="${item.getStatus().getValue() == 1}">
+                        <c:if test="${item.getEvaluation() == ''}">
+                            <fmt:parseDate var="start_date_current_semester" value="${current_semester[0]}"
+                                           pattern="yyyy-MM-dd"/>
+                            <fmt:parseDate var="this_bill_start" value="${item.getStart()}" pattern="yyyy-MM-dd"/>
+                            <c:if test="${start_date_current_semester eq this_bill_start}">
                                 <%--cho nhận xét --%>
-                            <a href="${pageContext.request.contextPath}/user/make-review?bill_id=${item.getId()}">
-                                <button class="btn btn-success">Nhận xét</button>
-                            </a>
+                                <a href="${pageContext.request.contextPath}/user/make-review?bill_id=${item.getId()}">
+                                    <button class="btn btn-success">Nhận xét</button>
+                                </a>
+                            </c:if>
+                            <c:if test="${start_date_current_semester lt this_bill_end}">
+                                chưa có nhận xét
+                            </c:if>
                         </c:if>
-                        <c:if test="${start_date_current_semester lt this_bill_end}">
-                            chưa có nhận xét
+                        <c:if test="${item.getEvaluation() != ''}">
+                            ${item.getEvaluation()}
                         </c:if>
                     </c:if>
-                    <c:if test="${item.getEvaluation() != ''}">
-                        ${item.getEvaluation()}
+                    <c:if test="${item.getStatus().getValue() != 1}">
+                        <c:if test="${item.getEvaluation() == ''}">
+                            Chưa có nhận xét
+                        </c:if>
+                        <c:if test="${item.getEvaluation() != ''}">
+                            ${item.getEvaluation()}
+                        </c:if>
                     </c:if>
                 </td>
                 <c:if test="${item.getStars() == -1}">
                     <td>Chưa có đánh giá</td>
                 </c:if>
                 <c:if test="${item.getStars() != -1}">
-                <td>
-                    <div class="rate">
-                        <input disabled type="radio" id="star5" name="rate" value="5" ${item.getStars() == 5 ? "checked" : ""}/>
-                        <label for="star5" title="text">5 stars</label>
-                        <input disabled type="radio" id="star4" name="rate" value="4" ${item.getStars() == 4 ? "checked" : ""}/>
-                        <label for="star4" title="text">4 stars</label>
-                        <input disabled type="radio" id="star3" name="rate" value="3" ${item.getStars() == 3 ? "checked" : ""}/>
-                        <label for="star3" title="text">3 stars</label>
-                        <input disabled type="radio" id="star2" name="rate" value="2" ${item.getStars() == 2 ? "checked" : ""}/>
-                        <label for="star2" title="text">2 stars</label>
-                        <input disabled type="radio" id="star1" name="rate" value="1" ${item.getStars() == 1 ? "checked" : ""}/>
-                        <label for="star1" title="text">1 star</label>
-                    </div>
-                </td>
+                    <td>
+                        <div class="rate">
+                            <c:forEach var="i" begin="1" end="5">
+                                <c:if test="${6-i <= item.getStars()}">
+                                    <input disabled type="radio" name="rate" value="${6-i}"/>
+                                    <label title="text" style="color: #ffc700">${6-i} star</label>
+                                </c:if>
+                                <c:if test="${6-i > item.getStars()}">
+                                    <input disabled type="radio" name="rate" value="${6-i}"/>
+                                    <label title="text">${6-i} star</label>
+                                </c:if>
+                            </c:forEach>
+                        </div>
+                    </td>
                 </c:if>
                 <td title="${item.getStart()} - ${item.getEnd()}">${item.getSemester()}</td>
                 <td>${item.getCreated_at()}</td>
@@ -181,53 +183,6 @@
                             </button>
                         </c:if>
                     </c:if>
-                    <%--<c:if test="${item.getStatus().getValue() == 1}">
-                        <form action="${pageContext.request.contextPath}/user/view-user-in-room" class="mb-1">
-                            <input type="hidden" name="room_id" value="${item.getRoom_id()}">
-                            <input type="hidden" name="start_date" value="${item.getStart()}">
-                            <input type="hidden" name="end_date" value="${item.getEnd()}">
-                            <button style="width: 100%;" class="btn btn-info">Xem thành viên</button>
-                        </form>
-                        <c:if test="${item.getChange_id() == 0}">
-                            <form action="${pageContext.request.contextPath}/user/change-room" class="mb-1">
-                                <input type="hidden" name="bill_id" value="${item.getId()}">
-                                <button style="width: 100%;" class="btn btn-outline-warning">Chuyển phòng</button>
-                            </form>
-                        </c:if>
-                        <c:if test="${item.getChange_id() != 0}">
-                            <c:if test="${item.getChange_status().getValue() == 0}">
-                                <p class="text-info">Đã gửi đơn chuyển phòng, chờ xét duyệt.</p>
-                            </c:if>
-                            <c:if test="${item.getChange_status().getValue() == 1}">
-                                <p class="text-success">Đơn chuyển phòng đã được đồng ý.</p>
-                            </c:if>
-                            <c:if test="${item.getChange_status().getValue() == -1}">
-                                <p class="text-danger">Đơn chuyển phòng bị từ chối.</p>
-                            </c:if>
-                        </c:if>
-
-                    </c:if>
-                    <c:if test="${item.getStatus().getValue() != -1}">
-                        <c:if test="${item.getCancel_id() != 0 && item.getCancel_status().getValue() == 0}">
-                            <p class="text-info">Đã gửi yêu cầu huỷ, chờ xét duyệt </p>
-                        </c:if>
-                        <c:if test="${item.getCancel_id() != 0 && item.getCancel_status().getValue() == -1}">
-                            <p class="text-danger">Yêu cầu huỷ không được đồng ý.</p>
-                        </c:if>
-                        <c:if test="${item.getCancel_id() == 0 && item.getChange_id() == 0}">
-                            <button style="width: 100%;" class="btn btn-danger" type="button" data-bs-toggle="modal"
-                                    data-bs-target="#modal${item.getId()}">Huỷ
-                            </button>
-                        </c:if>
-                        <c:if test="${item.getCancel_id() == 0 && item.getChange_id() != 0}">
-
-                        </c:if>
-                    </c:if>
-                    <c:if test="${item.getStatus().getValue() == -1}">
-                        <c:if test="${item.getCancel_id() != 0 && item.getCancel_status().getValue() == 1}">
-                            <p class="text-success">Yêu cầu huỷ đã được đồng ý</p>
-                        </c:if>
-                    </c:if>--%>
                 </td>
             </tr>
         </c:forEach>
@@ -268,7 +223,7 @@
         "order": [],
     });
     const bill_id = '${pageContext.request.getParameter("bill_id")}';
-    if (bill_id !== ''){
+    if (bill_id !== '') {
         table.fnFilter(bill_id, 0);
         $('#mytable').removeAttr('hidden');
     }

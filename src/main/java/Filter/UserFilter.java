@@ -15,7 +15,7 @@ public class UserFilter implements Filter {
         if (!((User) request.getSession().getAttribute("user")).isAdmin()){
             filterChain.doFilter(request, response);
         } else {
-            request.getSession().setAttribute("login_mess", "Vui lòng đăng nhập bằng tài khoản user.");
+            request.getSession().setAttribute("session_mess", "warning|Vui lòng đăng nhập bằng tài khoản user.");
             response.sendRedirect(request.getContextPath() + "/login");
         }
     }

@@ -4,27 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../../include/head.jsp"%>
 <div class="row">
+    <h1>Đặt phòng</h1>
     <div class="col-md-6">
-        <c:if test="${not empty error}">
-            <div class="alert alert-danger">
-                    ${error}
-            </div>
-        </c:if>
-        <c:if test="${not empty warning}">
-            <div class="alert alert-warning">
-                    ${warning}
-            </div>
-        </c:if>
-        <c:if test="${not empty warning1}">
-            <div class="alert alert-warning">
-                    ${warning1}
-            </div>
-        </c:if>
-        <c:if test="${not empty success}">
-            <div class="alert alert-success">
-                    ${success}
-            </div>
-        </c:if>
             <div class="form-group">
                 <label for="room_name">Tên phòng</label>
                 <input type="text" id="room_name" name="room_name" class="form-control" value="${room.getName()}" readonly>
@@ -77,6 +58,25 @@
         <div class="alert alert-warning">
             Lưu ý, nếu muốn đặt phòng này nhưng ở kì khác, vui lòng chọn thời gian và kiểm tra số lượng người trong phòng trước khi đặt, nếu không bạn sẽ đặt phòng với kì đang hiển thị ở phía trên.
         </div>
+        <c:forEach var="item" items="${bills}">
+            <div class="bg-light p-5 rounded m-2" style="background-color: #E9ECEF">
+                <p> <span class="fw-bold">Người đánh giá : </span> ${item.getUsername()} : ${item.getStudent_code()}</p>
+                <p> <span class="fw-bold" >Nội dung đánh giá : </span> ${item.getEvaluation()}</p>
+                <div class="rate">
+                    <c:forEach var="i" begin="1" end="5">
+                        <c:if test="${6-i <= item.getStars()}">
+                            <input disabled type="radio" name="rate" value="${6-i}"/>
+                            <label title="text" style="color: #ffc700">${6-i} star</label>
+                        </c:if>
+                        <c:if test="${6-i > item.getStars()}">
+                            <input disabled type="radio" name="rate" value="${6-i}"/>
+                            <label title="text">${6-i} star</label>
+                        </c:if>
+                    </c:forEach>
+                </div>
+            </div>
+        </c:forEach>
+
     </div>
 </div>
 <%@ include file="../../include/foot.jsp"%>

@@ -16,7 +16,7 @@ public class LoginFilter implements Filter {
         if (user != null){
             filterChain.doFilter(request, response);
         } else {
-            request.getSession().setAttribute("login_mess", "Vui lòng đăng nhập.");
+            request.getSession().setAttribute("session_mess", "warning|Vui lòng đăng nhập.");
             response.sendRedirect(request.getContextPath() + "/login");
         }
     }

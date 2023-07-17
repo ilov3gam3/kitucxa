@@ -2,17 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../../include/head.jsp" %>
 <div class="row">
+  <h1>Quản lý tầng</h1>
     <div class="col-md-6">
-        <c:if test="${not empty error}">
-            <div class="alert alert-danger">
-                    ${error}
-            </div>
-        </c:if>
-        <c:if test="${not empty success}">
-            <div class="alert alert-success">
-                    ${success}
-            </div>
-        </c:if>
         <form action="" method="post">
             <div class="form-group">
                 <label for="building_id">Toà nhà</label>

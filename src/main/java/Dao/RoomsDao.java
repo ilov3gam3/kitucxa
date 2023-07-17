@@ -64,7 +64,11 @@ public class RoomsDao {
     public ArrayList<Room> getAllRoomsWithNumbers(String[] semesters){
         ArrayList<Room> arrayList = new ArrayList<>();
         try{
-            String sql = "select rooms.*, count(bills.user_id) as number from rooms left join bills on rooms.id = bills.room_id AND (bills.start >= ? AND bills.[end] <= ? AND bills.status = 1) group by rooms.id, rooms.name, floor_id, is_available, rooms.price; select * from floors; select * from buildings;";
+//            String sql = "select rooms.*, count(bills.user_id) as number from rooms left join bills on rooms.id = bills.room_id AND (bills.start >= ? AND bills.[end] <= ? AND bills.status = 1) group by rooms.id, rooms.name, floor_id, is_available, rooms.price; select * from floors; select * from buildings;";
+            String sql = "select rooms.*, count(b.user_id) as number, avg(case when b.stars <> -1 then b.stars end) as stars\n" +
+                    "from rooms\n" +
+                    "         left join bills b on rooms.id = b.room_id AND (b.start >= ? AND b.[end] <= ? AND b.status = 1)\n" +
+                    "group by rooms.id, rooms.name, floor_id, is_available, rooms.price;";
             connection = Connect.getConnection();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, semesters[0]);
@@ -77,7 +81,8 @@ public class RoomsDao {
                         resultSet.getInt("floor_id"),
                         resultSet.getBoolean("is_available"),
                         resultSet.getInt("price"),
-                        resultSet.getInt("number")
+                        resultSet.getInt("number"),
+                        resultSet.getInt("stars")
                 ));
             }
             return arrayList;

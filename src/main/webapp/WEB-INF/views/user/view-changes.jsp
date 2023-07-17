@@ -3,16 +3,6 @@
 <%@ include file="../../include/head.jsp"%>
 <div class="row">
     <h3>Danh sách chuyển phòng của bạn</h3>
-    <c:if test="${not empty error}">
-        <div class="alert alert-danger">
-                ${error}
-        </div>
-    </c:if>
-    <c:if test="${not empty success}">
-        <div class="alert alert-success">
-                ${success}
-        </div>
-    </c:if>
     <table ${pageContext.request.getParameter("change_id") != null ? "hidden" : ""} class="table table-bordered table-striped" id="mytable">
         <thead>
         <tr>

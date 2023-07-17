@@ -1,18 +1,8 @@
-<%@ page import="java.util.Calendar" %>
 <%@page contentType="text/html" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../../include/head.jsp"%>
 <div class="row">
-  <c:if test="${not empty error}">
-    <div class="alert alert-danger">
-        ${error}
-    </div>
-  </c:if>
-  <c:if test="${not empty success}">
-    <div class="alert alert-success">
-        ${success}
-    </div>
-  </c:if>
+  <h1>Tất cả đơn huỷ phòng</h1>
   <table class="table table-bordered table-striped" id="mytable">
     <thead>
     <tr>
@@ -64,7 +54,7 @@
   <div class="modal fade" id="modal${item.getId()}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="" method="post">
+        <form onsubmit="checkForm(event)" action="" method="post">
           <input type="hidden" name="bill_id" value="${item.getBill_id()}">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">ID đơn huỷ phòng : ${item.getId()}, ID hoá đơn ${item.getBill_id()}</h5><br>
@@ -104,4 +94,10 @@
   $('#mytable').dataTable( {
     "order": [],
   } );
+  function checkForm(e){
+    if (document.getElementById("status").value === "0"){
+      e.preventDefault();
+      toastr.warning("Vui lòng chọn trạng thái.")
+    }
+  }
 </script>
