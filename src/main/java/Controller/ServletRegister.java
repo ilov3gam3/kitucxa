@@ -41,7 +41,7 @@ public class ServletRegister extends HttpServlet {
                             ExecutorService executorService = Executors.newSingleThreadExecutor();
                             executorService.submit(() -> {
                                 try {
-                                    String html = "<h1>Xin chào " + name + ", chào mừng bạn đến với kí túc xá FPT. Để kích hoạt tài khoản vui lòng nhấn vào <a href='" + host + "/active/" + uuid + "'>đây.</a></h1>";
+                                    String html = "<h1>Xin chào " + name + ", chào mừng bạn đến với kí túc xá FPT. Để kích hoạt tài khoản vui lòng nhấn vào <a href='" + host + "?key=" + uuid + "'>đây.</a></h1>";
                                     Mail.send(email, "Xác nhận tài khoản", html);
                                 } catch (Exception e) {
                                     e.printStackTrace();

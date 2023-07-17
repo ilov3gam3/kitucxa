@@ -30,7 +30,6 @@
                                             <div v-if="value.last_chat_sender == login_user.id && value.last_chat_is_img != false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">bạn : hình ảnh</div>
                                             <div v-if="value.last_chat_sender != login_user.id && value.last_chat_is_img != false" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{value.name}} : hình ảnh</div>
                                         </div>
-                                        <div class="status"><i class="fa fa-circle offline"></i> left 7 mins ago</div>
                                     </div>
                                 </li>
                             </template>
@@ -49,7 +48,6 @@
                                     <img v-if="current_chat_index != -1" v-bind:src="host + '/' + user_list[current_chat_index].avatar" alt="avatar">
                                 <div class="chat-about">
                                     <h6 class="m-b-0">{{current_chat_index != -1 ? data[current_chat_index].name : 'Chọn 1 người để chat'}}</h6>
-                                    <small>Last seen: 2 hours ago</small>
                                 </div>
                             </div>
                         </div>
@@ -220,7 +218,9 @@
                                 }
                             }
                         }*/
-                        this.socket.send("subscribe:" + this.login_user.id.toString());
+                        setTimeout(() => {
+                            this.socket.send("subscribe:" + this.login_user.id.toString());
+                        }, 1000);
                     })
             },
             change_chatting_with(id){

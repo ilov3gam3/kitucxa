@@ -19,9 +19,17 @@ public class ServletGetAllUsers extends HttpServlet {
 //        ArrayList<User> arrayList = new UserDao().getAllUsers();
         int user_id = ((User)req.getSession().getAttribute("user")).id;
         ArrayList<User> arrayList = new UserDao().getAllUsersWithLassMess(user_id);
+        int to_remove = -1;
         for (int i = 0; i < arrayList.size(); i++) {
             arrayList.get(i).password = "";
             arrayList.get(i).verify_key = "";
+            int id = arrayList.get(i).id;
+            if (id == user_id){
+                to_remove = i;
+            }
+        }
+        if (to_remove !=-1){
+            arrayList.remove(to_remove);
         }
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonString = objectMapper.writeValueAsString(arrayList);

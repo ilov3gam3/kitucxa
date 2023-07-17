@@ -12,7 +12,7 @@ import java.io.IOException;
 public class ServletVerifyMail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String key = request.getRequestURI().split("/")[3];
+        String key = request.getParameter("key");
         UserDao userDao = new UserDao();
         User user = userDao.findUserBy_key(key);
         if (user == null){

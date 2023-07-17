@@ -16,7 +16,7 @@ public class Connect {
         try {
             String serverName = Config.map.get("db_server");
             String databaseName = Config.map.get("db_name");
-            String url = "jdbc:sqlserver://" + serverName + ";databaseName=" + databaseName + ";";
+            String url = "jdbc:sqlserver://" + serverName + ";databaseName=" + databaseName + ";trustServerCertificate=true;";
             String username = Config.map.get("db_username");
             String password = Config.map.get("db_password");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

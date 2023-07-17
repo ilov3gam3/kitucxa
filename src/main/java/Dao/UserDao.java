@@ -198,25 +198,21 @@ public class UserDao {
     public ArrayList<User> getAllUsersWithLassMess(int user_id){
         ArrayList<User> arrayList = new ArrayList<>();
         try {
-            String sql = "select users.*,\n" +
-                    "       chats.is_image   as last_chat_is_img,\n" +
-                    "       chats.content    as last_chat_content,\n" +
-                    "       chats.created_at as last_chat_time,\n" +
-                    "       chats.sender_id as last_chat_sender\n" +
-                    "from users\n" +
-                    "         left join chats on users.id = chats.sender_id or users.id = chats.receiver_id\n" +
-                    "where users.id <> ?\n" +
-                    "  and chats.created_at = (SELECT MAX(created_at)\n" +
-                    "                          FROM chats\n" +
-                    "                          WHERE (\n" +
-                    "                                        (sender_id = ? AND receiver_id = users.id)\n" +
-                    "                                        OR (sender_id = users.id AND receiver_id = ?)\n" +
-                    "                                    )) or chats.id is null";
+            String sql = "SELECT u.*,\n" +
+                    "       c.is_image   AS last_chat_is_img,\n" +
+                    "       c.content    AS last_chat_content,\n" +
+                    "       c.created_at AS last_chat_time,\n" +
+                    "       c.sender_id  AS last_chat_sender\n" +
+                    "FROM users u\n" +
+                    "         LEFT JOIN chats c ON u.id = c.sender_id and c.receiver_id = ? OR u.id = c.receiver_id and c.sender_id = ?\n" +
+                    "WHERE u.id <> ? AND c.created_at = (SELECT MAX(created_at) FROM chats WHERE (sender_id = u.id AND receiver_id = ?) OR (sender_id = ? AND receiver_id = u.id)) OR c.created_at IS NULL;";
             connection = Connect.getConnection();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, user_id);
             preparedStatement.setInt(2, user_id);
             preparedStatement.setInt(3, user_id);
+            preparedStatement.setInt(4, user_id);
+            preparedStatement.setInt(5, user_id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 arrayList.add(new User(
