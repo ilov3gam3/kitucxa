@@ -12,6 +12,39 @@ public class BillsDao {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
+    public boolean changeLimit(int a, int b){
+        String sql = "update limits set electricity_limit = ?, water_limit = ?";
+        connection = Connect.getConnection();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, a);
+            preparedStatement.setInt(2, b);
+            int row = preparedStatement.executeUpdate();
+            return row>0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public int[] getLimit(){
+        int[] a = new int[2];
+        String sql = "select * from limits";
+        try {
+            connection = Connect.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                a[0] = resultSet.getInt("electricity_limit");
+                a[1] = resultSet.getInt("water_limit");
+                return a;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public ArrayList<Bill> getReviewsOfRoom(int id){
         ArrayList<Bill> arrayList = new ArrayList<>();
         String sql = "select bills.*, users.name as username, users.student_code as student_code\n" +

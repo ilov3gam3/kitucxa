@@ -27,4 +27,22 @@ public class ServletViewBills extends HttpServlet {
         }
         resp.sendRedirect(req.getContextPath() + "/admin/manage-bills" + query);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int max_electricity = Integer.parseInt(req.getParameter("max_electricity"));
+        int max_water = Integer.parseInt(req.getParameter("max_water"));
+        if (new BillsDao().changeLimit(max_electricity, max_water)){
+            req.getSession().setAttribute("session_mess", "success|Cập nhật thành công.");
+        } else {
+            req.getSession().setAttribute("session_mess", "error|Cập nhật không thành công.");
+        }
+        if (req.getParameter("year") != null && req.getParameter("semester") != null){
+            int year = Integer.parseInt(req.getParameter("year"));
+            String semester = req.getParameter("semester");
+            resp.sendRedirect(req.getContextPath() + "/admin/manage-extra-bills?year="+year+"&semester="+ semester);
+        } else {
+            resp.sendRedirect(req.getContextPath() + "/admin/manage-extra-bills");
+        }
+    }
 }

@@ -11,7 +11,7 @@
             <% for (int i = 0; i < current.size(); i++) {%>
             <% if (i == 0) { %>
             <div class="carousel-item active">
-                <a href="${pageContext.request.contextPath}/<%= user!=null && user.isAdmin() ? "/admin/update-notification?id="+ current.get(i).id : "/user/view-notification-detail?id=" + current.get(i).id  %>">
+                <a href="${pageContext.request.contextPath}/<%= user!=null && user.isAdmin() ? "admin/update-notification?id="+ current.get(i).id : "/user/view-notification-detail?id=" + current.get(i).id  %>">
                     <div class="alert alert-warning mb-1" style="padding: 3px; margin: 0">
                         <p style="font-weight: bold; margin: 0">
                             <%= current.get(i).getName()%>
@@ -23,7 +23,7 @@
                 </a>
             </div>
             <% } else { %>
-            <a href="${pageContext.request.contextPath}/<%= user!=null && user.isAdmin() ? "/admin/update-notification?id="+ current.get(i).id : "/user/view-notification-detail?id=" + current.get(i).id  %>">
+            <a href="${pageContext.request.contextPath}/<%= user!=null && user.isAdmin() ? "admin/update-notification?id="+ current.get(i).id : "/user/view-notification-detail?id=" + current.get(i).id  %>">
                 <div class="carousel-item">
                     <div class="alert alert-warning mb-1" style="padding: 3px; margin: 0">
                         <p style="font-weight: bold; margin: 0">

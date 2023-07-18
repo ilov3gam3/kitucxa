@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-6">
             <form action="">
-            <div class="row">
+                <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="year">Nhập năm</label>
@@ -28,7 +28,7 @@
                             <button type="submit" class="btn btn-success" style="width: 100%">Xem</button>
                         </div>
                     </div>
-            </div>
+                </div>
             </form>
         </div>
         <div class="col-md-6">
@@ -40,9 +40,41 @@
     </div>
     <div class="col-md-12">
         <h3>Hoá đơn điện, nước kì ${semester} từ ${semesters[0]} đến ${semesters[1]}</h3>
-        <h5>Hạn mức điện : ${max_electricity}</h5>
-        <h5>Hạn mức nước : ${max_water}</h5>
-        <table class="table table-bordered table-striped" id="mytable">
+        <form action="${pageContext.request.contextPath}/admin/view-bills-in-extra" method="post">
+            <div class="row mb-2">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="max_electricity">Hạn mức điện</label>
+                        <input required readonly class="form-control" id="max_electricity" type="text"
+                               name="max_electricity" value="${max_electricity}">
+                    </div>
+                    <div class="form-group">
+                        <label for="max_water">Hạn mức điện</label>
+                        <input required readonly class="form-control" id="max_water" type="text" name="max_water"
+                               value="${max_water}">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for=""></label>
+                        <button type="button" onclick="makeUpdate()" style="width: 100%" class="btn btn-warning">Chỉnh
+                            sửa
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label for=""></label>
+                        <button type="submit" disabled id="updateButton" style="width: 100%" class="btn btn-success">Cập
+                            nhật
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+
+        <table class="table table-bordered table-striped mt-2" id="mytable">
             <thead>
             <tr>
                 <th scope="col">Tên phòng</th>
@@ -70,52 +102,64 @@
                             <input type="hidden" name="extra_bill_id" value="${item.getId()}">
                             <input type="hidden" name="method" value="update">
                         </c:if>
-                    <th scope="row">${item.getRoom_name()} <a href="${pageContext.request.contextPath}/admin/view-bills-in-extra?room_id=${item.getRoom_id()}&start=${semesters[0]}&end=${semesters[1]}">Chi tiết</a></th>
-                    <th scope="row">
-                        <input type="text" class="form-control" name="electricity" value="${item.getElectricity() == 0 ? "" : item.getElectricity()}" >
-                    </th>
+                        <th scope="row">${item.getRoom_name()} <a
+                                href="${pageContext.request.contextPath}/admin/view-bills-in-extra?room_id=${item.getRoom_id()}&start=${semesters[0]}&end=${semesters[1]}">Chi
+                            tiết</a></th>
                         <th scope="row">
-                            <input type="text" class="form-control" name="electricity_end" value="${item.getElectricity_end() == 0 ? "" : item.getElectricity_end()}" >
+                            <input type="text" class="form-control" name="electricity"
+                                   value="${item.getElectricity() == 0 ? "" : item.getElectricity()}">
                         </th>
-                    <th scope="row">
-                        <input type="text" class="form-control" name="electricity_price" value="${item.getElectricity_price() == 0 ? "" : item.getElectricity_price()}" >
-                    </th>
-                    <th scope="row">
-                        <input type="text" class="form-control" name="water" value="${item.getWater() == 0 ? "" : item.getWater()}" >
-                    </th>
                         <th scope="row">
-                            <input type="text" class="form-control" name="water_end" value="${item.getWater_end() == 0 ? "" : item.getWater_end()}" >
+                            <input type="text" class="form-control" name="electricity_end"
+                                   value="${item.getElectricity_end() == 0 ? "" : item.getElectricity_end()}">
                         </th>
-                    <th scope="row">
-                        <input type="text" class="form-control" name="water_price" value="${item.getWater_price() == 0 ? "" : item.getWater_price()}" >
-                    </th>
-                    <th style="width: 12%">
-                        <select class="form-control" name="status" id="">
-                            <option value="true" ${item.isStatus() ? "selected" : ""}>Đã thanh toán</option>
-                            <option value="false" ${!item.isStatus() ? "selected" : ""}>Chưa thanh toán</option>
-                        </select>
-                    </th>
-                    <th style="width: 12%;">
-                        <div class="row m-1">
-                            <div class="col-md-12">
-                                <c:if test="${item.getId() > 0}">
-                                    <c:if test="${(item.getElectricity_end() - item.getElectricity() ) <= max_electricity && (item.getWater_end() -item.getWater()) <= max_water}">
-                                            <button type="button" disabled class="btn btn-success" style="width: 100%;">Chưa đủ hạn mức</button>
+                        <th scope="row">
+                            <input type="text" class="form-control" name="electricity_price"
+                                   value="${item.getElectricity_price() == 0 ? "" : item.getElectricity_price()}">
+                        </th>
+                        <th scope="row">
+                            <input type="text" class="form-control" name="water"
+                                   value="${item.getWater() == 0 ? "" : item.getWater()}">
+                        </th>
+                        <th scope="row">
+                            <input type="text" class="form-control" name="water_end"
+                                   value="${item.getWater_end() == 0 ? "" : item.getWater_end()}">
+                        </th>
+                        <th scope="row">
+                            <input type="text" class="form-control" name="water_price"
+                                   value="${item.getWater_price() == 0 ? "" : item.getWater_price()}">
+                        </th>
+                        <th style="width: 12%">
+                            <select class="form-control" name="status" id="">
+                                <option value="true" ${item.isStatus() ? "selected" : ""}>Đã thanh toán</option>
+                                <option value="false" ${!item.isStatus() ? "selected" : ""}>Chưa thanh toán</option>
+                            </select>
+                        </th>
+                        <th style="width: 12%;">
+                            <div class="row m-1">
+                                <div class="col-md-12">
+                                    <c:if test="${item.getId() > 0}">
+                                        <c:if test="${(item.getElectricity_end() - item.getElectricity() ) <= max_electricity && (item.getWater_end() -item.getWater()) <= max_water}">
+                                            <button type="button" disabled class="btn btn-success" style="width: 100%;">
+                                                Chưa đủ hạn mức
+                                            </button>
+                                        </c:if>
+                                        <c:if test="${(item.getElectricity_end() - item.getElectricity()) > max_electricity || (item.getWater_end() - item.getWater()) > max_water}">
+                                            <a href="${pageContext.request.contextPath}/admin/send-mail-extra-bill?extra_bill_id=${item.getId()}">
+                                                <button type="button" class="btn btn-success" style="width: 100%;">Gửi
+                                                    thông báo
+                                                </button>
+                                            </a>
+                                        </c:if>
                                     </c:if>
-                                    <c:if test="${(item.getElectricity_end() - item.getElectricity()) > max_electricity || (item.getWater_end() - item.getWater()) > max_water}">
-                                        <a href="${pageContext.request.contextPath}/admin/send-mail-extra-bill?extra_bill_id=${item.getId()}">
-                                            <button type="button" class="btn btn-success" style="width: 100%;">Gửi thông báo</button>
-                                        </a>
-                                    </c:if>
-                                </c:if>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row m-1">
-                            <div class="col-md-12">
-                                <button type="submit" class="btn btn-warning" style="width: 100%;">Cập nhật</button>
+                            <div class="row m-1">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-warning" style="width: 100%;">Cập nhật</button>
+                                </div>
                             </div>
-                        </div>
-                    </th>
+                        </th>
                     </form>
                 </tr>
             </c:forEach>
@@ -126,4 +170,18 @@
 <%@ include file="../../include/foot.jsp" %>
 <script>
     let table = new DataTable('#mytable');
+    var check = 0;
+
+    function makeUpdate() {
+        if (check % 2 === 0) {
+            document.getElementById("max_electricity").removeAttribute("readonly")
+            document.getElementById("max_water").removeAttribute("readonly")
+            document.getElementById("updateButton").removeAttribute("disabled")
+        } else {
+            document.getElementById("max_electricity").setAttribute("readonly", "")
+            document.getElementById("max_water").setAttribute("readonly", "")
+            document.getElementById("updateButton").setAttribute("disabled", "")
+        }
+        check++;
+    }
 </script>

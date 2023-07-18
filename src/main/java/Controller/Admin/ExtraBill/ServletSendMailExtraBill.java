@@ -1,6 +1,7 @@
 package Controller.Admin.ExtraBill;
 
 import Controller.Mail;
+import Dao.BillsDao;
 import Dao.ExtraBillDao;
 import Model.Config;
 import Model.ExtraBill;
@@ -24,13 +25,14 @@ public class ServletSendMailExtraBill extends HttpServlet {
         ArrayList<ExtraBill> arrayList = extraBillDao.getExtraWithUsername(Integer.parseInt(extra_bill_id));
         String[] addresses = new String[arrayList.size()];
         String[] contents = new String[arrayList.size()];
+        int[] limits = new BillsDao().getLimit();
         for (int i = 0; i < arrayList.size(); i++) {
             addresses[i] = arrayList.get(i).user_email;
-            int electricity_value = arrayList.get(i).electricity_end - arrayList.get(i).electricity - Integer.parseInt(Config.map.get("max_electricity"));
+            int electricity_value = arrayList.get(i).electricity_end - arrayList.get(i).electricity - limits[0];
             if (electricity_value < 0){
                 electricity_value = 0;
             }
-            int water_value = arrayList.get(i).water_end - arrayList.get(i).water - Integer.parseInt(Config.map.get("max_water"));
+            int water_value = arrayList.get(i).water_end - arrayList.get(i).water - limits[1];
             if (water_value < 0){
                 water_value = 0;
             }
@@ -57,11 +59,11 @@ public class ServletSendMailExtraBill extends HttpServlet {
                     "      <td>" + arrayList.get(i).electricity + "</td>\n" +
                     "      <td>" + arrayList.get(i).electricity_end + "</td>\n" +
                     "      <td>" + arrayList.get(i).electricity_price + "</td>\n" +
-                    "      <td>" + Config.map.get("max_electricity") + "</td>\n" +
+                    "      <td>" + limits[0] + "</td>\n" +
                     "      <td>" + arrayList.get(i).water + "</td>\n" +
                     "      <td>" + arrayList.get(i).water_end + "</td>\n" +
                     "      <td>" + arrayList.get(i).water_price + "</td>\n" +
-                    "      <td>" + Config.map.get("max_water") + "</td>\n" +
+                    "      <td>" + limits[1] + "</td>\n" +
                     "      <td>" + total + "</td>\n" +
                     "\n" +
                     "    </tr>\n" +

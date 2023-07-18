@@ -33,7 +33,7 @@
 <body class="sb-nav-fixed"  >
 <nav class="sb-topnav navbar navbar-expand navbar-light">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="${pageContext.request.contextPath}">
+    <a class="navbar-brand ps-3" href="${pageContext.request.contextPath}/">
         <img style="width: 70%;"
              src="https://lmsdn.fpt.edu.vn/pluginfile.php/1/core_admin/logo/0x200/1657934026/2021-FPTU-Eng.png"
              alt="">

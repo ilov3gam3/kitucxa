@@ -13,13 +13,13 @@
                             <span class="input-group-text" style="width: 100%; height: 100%"><i
                                     class="fa-solid fa-magnifying-glass"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Search...">
+                        <input type="text" v-model="search_users" class="form-control" placeholder="Search...">
                     </div>
                     <div class="col-md-12">
                         <ul class="list-unstyled chat-list mt-2 mb-0"
                             :style="{'overflow-y': 'scroll', 'height' : left_height, 'border': '2px solid #E9ECEF'}">
                             <template v-for="(value, key) in data">
-                                <li @click="change_chatting_with(value.id)" v-bind:class="{'clearfix active' : (receiver_id == value.id), 'clearfix' : (receiver_id != value.id)}" class="clearfix">
+                                <li @click="change_chatting_with(value.id)" v-bind:class="{'clearfix active' : (receiver_id == value.id), 'clearfix' : (receiver_id != value.id), 'hidden': search_users == '' ? false : !value.name.toLowerCase().includes(search_users.toLowerCase())}" class="clearfix">
                                     <img v-bind:src="host + '/' + value.avatar" alt="avatar" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover">
                                     <div class="about">
                                         <div class="name">{{value.admin ? 'admin' : 'user'}} : {{value.name}}</div>
@@ -132,7 +132,8 @@
             data : [],
             key : 0,
             scroll_me : null,
-            left_height : "80vh"
+            left_height : "80vh",
+            search_users : ""
         },
         created() {
             const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
