@@ -93,7 +93,7 @@
                     <td>Chưa có đánh giá</td>
                 </c:if>
                 <c:if test="${item.getStars() != -1}">
-                    <td>
+                    <td style="width: 16%">
                         <div class="rate">
                             <c:forEach var="i" begin="1" end="5">
                                 <c:if test="${6-i <= item.getStars()}">

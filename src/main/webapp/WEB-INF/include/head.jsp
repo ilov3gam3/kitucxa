@@ -233,12 +233,17 @@
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-bolt"></i></div>
                                 Tiền điện, nước
                             </a>
-                        <%} %>
                             <a class="nav-link <%= uri.endsWith("chat.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/user/chat">
                                 <div class="sb-nav-link-icon"><i class="fa-regular fa-message"></i></div>
                                 Chat
                             </a>
+                        <%} %>
+
                             <div class="sb-sidenav-menu-heading">User</div>
+                            <a class="nav-link <%= uri.endsWith("chat.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/user/chat">
+                                <div class="sb-nav-link-icon"><i class="fa-regular fa-message"></i></div>
+                                Chat
+                            </a>
                             <a class="nav-link <%= uri.endsWith("book-room.jsp") || uri.endsWith("book-room-detail.jsp") || uri.endsWith("change-room.jsp") ? "active" : "" %>" href="${pageContext.request.contextPath}/user/book-rooms">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-door-open"></i></div>
                                 Đặt phòng
